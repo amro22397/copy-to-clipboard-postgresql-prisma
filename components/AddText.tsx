@@ -110,7 +110,7 @@ const AddText = ({ textsDataArray }: {
     navigator.clipboard.writeText(text);
 
     toast.success('Text is copied to clipboard');
-
+    // sde
   }
 
 

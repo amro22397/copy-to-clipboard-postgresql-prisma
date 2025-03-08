@@ -1,5 +1,5 @@
 import { connectToDatabase } from "@/lib/db";
-import { connenctToMongoDB } from "@/lib/mongoDB";
+import { connectToMongoDB } from "@/lib/mongoDB";
 import textArea from "@/models/text-area";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
@@ -9,7 +9,10 @@ export async function POST(req: Request) {
 
     // mongoose.connect(process.env.MONGO_URL as string);
 
-    await connectToDatabase();
+    // await connectToDatabase();
+
+    await connectToMongoDB();
+
     
         try {
             
@@ -40,7 +43,7 @@ export async function POST(req: Request) {
 
 export async function GET() {
 
-    await connenctToMongoDB();
+    await connectToMongoDB();
 
     try {
 
@@ -66,7 +69,10 @@ export async function PUT(req: any) {
 
     // mongoose.connect(process.env.MONGO_URL as string);
 
-    await connectToDatabase();
+    // await connectToDatabase();
+
+    await connectToMongoDB();
+
 
     try {
 
@@ -99,7 +105,10 @@ export async function DELETE(req: any) {
 
     // mongoose.connect(process.env.MONGO_URL as string);
 
-    await connectToDatabase();
+    // await connectToDatabase();
+
+        await connectToMongoDB();
+    
 
     try {
         const id = req.nextUrl.searchParams.get('id');

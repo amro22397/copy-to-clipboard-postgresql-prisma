@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import Text from "@/models/text"
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
+import { connectToMongoDB } from "@/lib/mongoDB";
 
 
 // export async function GET() {
@@ -11,8 +12,9 @@ import { connectToDatabase } from "@/lib/db";
 
 export async function POST(req: Request) {
 
-    await connectToDatabase();
+    // await connectToDatabase();
 
+    await connectToMongoDB();
     try {
 
         const { text } = await req.json();
@@ -43,7 +45,10 @@ export async function PUT(req: any) {
 
     // mongoose.connect(process.env.MONGO_URL as string);
 
-    await connectToDatabase();
+    // await connectToDatabase();
+
+    await connectToMongoDB();
+
 
     try {
 
@@ -76,7 +81,10 @@ export async function DELETE(req: any) {
 
     // mongoose.connect(process.env.MONGO_URL as string);
 
-    await connectToDatabase();
+    // await connectToDatabase();
+
+    await connectToMongoDB();
+
 
     try {
         const id = req.nextUrl.searchParams.get('id');

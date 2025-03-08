@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 import Text from "@/models/text"
 import { NextResponse } from "next/server";
+import { connectToDatabase } from "@/lib/db";
 
 
 // export async function GET() {
@@ -10,7 +11,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
 
-    mongoose.connect(process.env.MONGO_URL as string);
+    await connectToDatabase();
 
     try {
 
@@ -40,7 +41,9 @@ export async function POST(req: Request) {
 
 export async function PUT(req: any) {
 
-    mongoose.connect(process.env.MONGO_URL as string);
+    // mongoose.connect(process.env.MONGO_URL as string);
+
+    await connectToDatabase();
 
     try {
 
@@ -71,7 +74,9 @@ export async function PUT(req: any) {
 
 export async function DELETE(req: any) {
 
-    mongoose.connect(process.env.MONGO_URL as string);
+    // mongoose.connect(process.env.MONGO_URL as string);
+
+    await connectToDatabase();
 
     try {
         const id = req.nextUrl.searchParams.get('id');

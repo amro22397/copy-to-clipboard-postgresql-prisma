@@ -61,14 +61,15 @@ const ThePage = ({
   //   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6 max-w-6xl mx-auto h-[calc(100vh-100px)]">
+    <div className="flex flex-col items-center justify-center gap-6 max-w-7xl mx-auto h-[calc(100vh-100px)]">
 
         <h1 className="text-4xl font-semibold my-4">Copy to Clipboard</h1>
       <div className="flex flex-row items-start justify-center gap-10 w-full">
 
         <AddText textsDataArray={textsDataArray} />
 
-        <AddTextArea textAreaData={textAreaData} />
+        <AddText textsDataArray={textAreaData} textAreaData={textAreaData} />
+        {/* <AddTextArea textAreaData={textAreaData} /> */}
       </div>
     </div>
   );

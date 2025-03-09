@@ -28,11 +28,13 @@ const AddText = ({
   textAreaData,
   getTexts,
   getTextsArea,
+  email
 }: {
   textsDataArray: Text[];
   textAreaData?: Text[];
   getTexts: () => void,
   getTextsArea: () => void,
+  email: string | null | undefined;
 }) => {
   const [text, setText] = useState("");
 
@@ -52,6 +54,7 @@ const AddText = ({
       `${textAreaData ? "/api/text-area" : "/api/text"}`,
       {
         text: text,
+        emailRef: email,
       }
     );
 

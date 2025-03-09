@@ -17,10 +17,11 @@ export async function POST(req: Request) {
     await connectToMongoDB();
     try {
 
-        const { text } = await req.json();
+        const { text, emailRef } = await req.json();
 
         const textData = await Text.create({
             text: text,
+            emailRef: emailRef,
         })
 
         return NextResponse.json({

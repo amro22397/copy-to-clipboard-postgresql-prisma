@@ -16,10 +16,11 @@ export async function POST(req: Request) {
     
         try {
             
-            const { text } = await req.json();
+            const { text, emailRef } = await req.json();
     
         const textAreaData = await textArea.create({
             text: text,
+            emailRef: emailRef,
         })
     
         return NextResponse.json({

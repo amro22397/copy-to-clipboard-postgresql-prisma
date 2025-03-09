@@ -1,5 +1,5 @@
-// import { getServerSession } from 'next-auth';
-// import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { connectToDatabase } from "@/lib/db";
 import text from "@/models/text";
 import textArea from "@/models/text-area";
@@ -12,21 +12,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
         await connectToDatabase();
-        // const session = await getServerSession(req, res, authConfig);
-        // console.log(session?.user?.email);
+        const session = await getServerSession(req, res, authOptions);
+        console.log(session?.user?.email);
 
 
-        // if (!session) {
-        //     return res.status(401).json({
-        //         message: "Unauthorized",
-        //         success: false,
-        //     })
-        // }
+        if (!session) {
+            return res.status(401).json({
+                message: "Unauthorized",
+                success: false,
+            })
+        }
 
 
         if (req.method === "GET") {
             // find from db
-            const textAreaData = await textArea.find({});
+            const textAreaData = await textArea.find({
+                emailRef: session?.user?.email
+            });
             const jTextAreaData = JSON.parse(JSON.stringify(textAreaData));
 
             return res.status(200).json({

@@ -3,11 +3,14 @@ import { render } from '@react-email/components';
 import VerifyEmailTemplate from "@/app/emails/VerifyEmailTemplate";
 import { User } from "@/models/user";
 import crypto from 'crypto'
+import { connectToDatabase } from "@/lib/db";
 
 
 
 export default async function handler(req: Request, res: Response) {
   if (req.method !== "POST") {
+
+    await connectToDatabase();
     // return res.status(405).json({ error: "Method Not Allowed" });
     res.status(200).json({
       success: false,

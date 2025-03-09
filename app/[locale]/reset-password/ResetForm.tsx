@@ -173,7 +173,7 @@ const ResetForm = () => {
               //   title: "Password must contain at least one number (1234567890)",
               //   description: "",
               //   });
-                toast.error('Passwords do not match');
+                toast.error('Password must contain at least one number (1234567890)');
                 setLoading(false);
                 return;
             }

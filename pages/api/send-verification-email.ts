@@ -4,6 +4,7 @@ import { render } from '@react-email/components';
 import VerifyEmailTemplate from "@/app/emails/VerifyEmailTemplate";
 import { User } from "@/models/user";
 import { connectToDatabase } from "@/lib/db";
+import mongoose from "mongoose";
 
 
 export default async function handler(req: Request, res: Response) {
@@ -33,7 +34,7 @@ export default async function handler(req: Request, res: Response) {
     // })
   }
 
-
+  mongoose.connect(process.env.MONGO_URL as string);
   const user = await User.findOne({ email: email })
 
 

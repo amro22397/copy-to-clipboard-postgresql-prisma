@@ -191,7 +191,7 @@ export function RegisterForm({
         setLoading(false);
         return;
     }
-
+///s
     if (!upper.test(formData.password)) {
       // toast({
       //   variant: "destructive",

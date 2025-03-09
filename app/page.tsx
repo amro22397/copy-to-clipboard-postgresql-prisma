@@ -10,20 +10,20 @@ const page = async () => {
   // mongoose.connect(process.env.MONGO_URL as string);
   connectToDatabase();
   
-  const textsData = await text.find({});
-  const jTextsData = JSON.parse(JSON.stringify(textsData));
+  // const textsData = await text.find({});
+  // const jTextsData = JSON.parse(JSON.stringify(textsData));
 
 
-  const textAreaData = await textArea.find({});
-  const jTextAreaData = JSON.parse(JSON.stringify(textAreaData));
+  // const textAreaData = await textArea.find({});
+  // const jTextAreaData = JSON.parse(JSON.stringify(textAreaData));
 
-  console.log(textsData);
-  console.log(textAreaData)
+  // console.log(textsData);
+  // console.log(textAreaData)
       
   
 
   return (
-    <ThePage textAreaData={jTextAreaData} textsDataArray={jTextsData} />
+    <ThePage /*textAreaData={jTextAreaData} textsDataArray={jTextsData}*/ />
   );
 };
 

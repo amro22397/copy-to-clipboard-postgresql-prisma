@@ -26,9 +26,13 @@ import { Textarea } from "./ui/textarea";
 const AddText = ({
   textsDataArray,
   textAreaData,
+  getTexts,
+  getTextsArea,
 }: {
   textsDataArray: Text[];
   textAreaData?: Text[];
+  getTexts: () => void,
+  getTextsArea: () => void,
 }) => {
   const [text, setText] = useState("");
 
@@ -59,7 +63,8 @@ const AddText = ({
       toast.error(res.data.message);
     }
 
-    await window.location.reload();
+    // await window.location.reload();
+    textAreaData ? getTextsArea() : getTexts();
 
     setTextLoading(false);
     setText("");
@@ -83,7 +88,9 @@ const AddText = ({
 
     setEditTextLoading(false);
 
-    await window.location.reload();
+    // await window.location.reload();
+
+    textAreaData ? getTextsArea() : getTexts();
 
     setEditedOn("");
     setEditedText("");
@@ -102,7 +109,9 @@ const AddText = ({
       toast.error(res.data.message);
     }
 
-    await window.location.reload();
+    // await window.location.reload();
+
+    textAreaData ? getTextsArea() : getTexts();
 
     setdeleteTextLoading(false);
   };

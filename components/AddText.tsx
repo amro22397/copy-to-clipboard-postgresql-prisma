@@ -130,7 +130,7 @@ const AddText = ({
           <Input
             type="text"
             placeholder="Add your text here..."
-            className="text-[20.25px] px-2 py-[21px]"
+            className="text-[20.25px] px-2 py-[21px] bg-gray-200/70"
             value={text}
             onChange={(e: any) => setText(e.target.value)}
           />
@@ -139,7 +139,7 @@ const AddText = ({
         {textAreaData && (
           <Textarea
             placeholder="Add your text here..."
-            className="text-[19.25px] px-2 w-full resize-none"
+            className="text-[19.25px] px-2 w-full resize-none bg-gray-200/70"
             value={text}
             onChange={(e: any) => setText(e.target.value)}
           />
@@ -167,7 +167,7 @@ const AddText = ({
                     type="text"
                     defaultValue={item.text}
                     onChange={(e: any) => setEditedText(e.target.value)}
-                    className="text-[20.4px] px-2"
+                    className="text-[20.4px] px-2 bg-gray-200/70"
                   />
                 )}
 
@@ -175,7 +175,7 @@ const AddText = ({
                   <Textarea
                     defaultValue={item.text}
                     onChange={(e: any) => setEditedText(e.target.value)}
-                    className="text-[20.4px] px-2"
+                    className="text-[20.4px] px-2 bg-gray-200/70"
                   />
                 )}
 
@@ -191,7 +191,7 @@ const AddText = ({
                 </Button>
               </div>
             ) : (
-              <div className="bg-gray-500/70 text-white hover:bg-gray-500/65 active:scale-95
+              <div className="bg-gray-700/70 text-white hover:bg-gray-500/65 active:scale-95
                w-full px-3 py-[1px] rounded-xs "
                onClick={() => handleCopyText(item.text)}
                >

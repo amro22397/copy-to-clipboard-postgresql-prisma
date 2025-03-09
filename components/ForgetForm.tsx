@@ -91,7 +91,7 @@ const ForgetForm = () => {
           //   className: "bg-green-500 text-white",
           //   title: res.data.message
           // })
-          toast.success(`${res.data.success}`);
+          toast.success(`${res.data.message}`);
         }
 
         setLoading(false);

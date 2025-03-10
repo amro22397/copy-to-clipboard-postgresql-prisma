@@ -24,21 +24,12 @@ import { parseWithZod } from "@conform-to/zod"
 import { loginSchema } from "@/lib/zodSchemas"
 import { z } from "zod"
 import { useForm } from "react-hook-form" */
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 // import type { Control, FieldPath } from "react-hook-form";
 // import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation";
 import ShowPassStrength from "./ShowPassStrength";
 import { passwordStrength } from "check-password-strength";
-import { useLocale, useTranslations } from 'next-intl' 
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 
 type strength = 0 | 1 | 2 | 3;
@@ -136,7 +127,7 @@ export function RegisterForm({
       //   variant: "destructive",
       //   title: "User name cannot be less than 3 characters",
       // });
-      toast.error('User name cannot be less than 3 characters');
+      toast.error("User name cannot be less than 3 characters");
       setLoading(false);
       return;
     } else if (formData.name.length > 25) {
@@ -144,7 +135,7 @@ export function RegisterForm({
       //   variant: "destructive",
       //   title: "User name cannot be more than 25 characters",
       // });
-      toast.error('User name cannot be more than 25 characters');
+      toast.error("User name cannot be more than 25 characters");
       setLoading(false);
       return;
     }
@@ -154,7 +145,7 @@ export function RegisterForm({
       //   variant: "destructive",
       //   title: "Password cannot be less than 6 characters",
       // });
-      toast.error('Password cannot be less than 6 characters');
+      toast.error("Password cannot be less than 6 characters");
       setLoading(false);
       return;
     } else if (formData.password.length > 20) {
@@ -162,7 +153,7 @@ export function RegisterForm({
       //   variant: "destructive",
       //   title: "Password cannot be more than 20 characters",
       // });
-      toast.error('Password cannot be more than 20 characters');
+      toast.error("Password cannot be more than 20 characters");
       setLoading(false);
       return;
     }
@@ -187,20 +178,24 @@ export function RegisterForm({
       //   title: "Password must contain at least one lowercase letter (asdfghjkl)",
       //   description: "",
       //   });
-      toast.error('Password must contain at least one lowercase letter (asdfghjkl)');
-        setLoading(false);
-        return;
+      toast.error(
+        "Password must contain at least one lowercase letter (asdfghjkl)"
+      );
+      setLoading(false);
+      return;
     }
-///s
+
     if (!upper.test(formData.password)) {
       // toast({
       //   variant: "destructive",
       //   title: "Password must contain at least one highercase letter (ASDFGHJKL)",
       //   description: "",
       //   });
-      toast.error('Password must contain at least one highercase letter (ASDFGHJKL)');
-        setLoading(false);
-        return;
+      toast.error(
+        "Password must contain at least one highercase letter (ASDFGHJKL)"
+      );
+      setLoading(false);
+      return;
     }
 
     if (!number.test(formData.password)) {
@@ -209,9 +204,9 @@ export function RegisterForm({
       //   title: "Password must contain at least one number (1234567890)",
       //   description: "",
       //   });
-        toast.error('Password must contain at least one number (1234567890)');
-        setLoading(false);
-        return;
+      toast.error("Password must contain at least one number (1234567890)");
+      setLoading(false);
+      return;
     }
 
     if (!special.test(formData.password)) {
@@ -220,48 +215,45 @@ export function RegisterForm({
       //   title: "Password must contain at least one special letter (!@#$%^&*)",
       //   description: "",
       //   });
-        toast.error('Password must contain at least one special letter (!@#$%^&*)');
-        setLoading(false);
-        return;
+      toast.error(
+        "Password must contain at least one special letter (!@#$%^&*)"
+      );
+      setLoading(false);
+      return;
     }
 
-    const res = await axios.post("/api/register", { ...formData, locale});
-
+    const res = await axios.post("/api/register", { ...formData, locale });
 
     if (res.data.status !== 150) {
-
       try {
-        
         const verifyRes = await axios.post("/api/send-verification-email", {
           email: formData.email,
-          subject: 'Verfiy your Email',
+          subject: "Verfiy your Email",
           locale: locale,
           // message: VerifyEmailTemplate(),
-        })
-  
-        console.log(verifyRes)
-  
+        });
+
+        console.log(verifyRes);
+
         setLoading(false);
-  
+
+        if (!verifyRes.data.success) {
+          toast.error(`Client Error: ${verifyRes.data.message}`);
+          return;
+        }
       } catch (error: any) {
-  
-        console.log(`Error sending verification email: ${error.message}`)
-  
+        console.log(`Error sending verification email: ${error.message}`);
+
         setLoading(false);
-        
+
         // toast({
         //   title: `Error sending verification email: ${error.message}`,
         // })
 
         toast.error(`Error sending verification email: ${error.message}`);
         return;
-  
-        
       }
-
     }
-
-
 
     try {
       if (!res.data.success) {
@@ -278,11 +270,9 @@ export function RegisterForm({
         //   className: "bg-green-500 text-white",
         //   title: `${res.data.message}`,
         // });
-        toast.success(`${res.data.message}`);
+        toast.success(`${res.data.message}`); 
         signIn("credentials", { ...formData, callbackUrl: `/${locale}/` });
       }
-
-
     } catch (error: any) {
       // toast({
       //   variant: "destructive",
@@ -290,7 +280,7 @@ export function RegisterForm({
       // });
       toast.error(`${error.message}`);
 
-      console.log(error)
+      console.log(error);
       setLoading(false);
     }
 
@@ -309,28 +299,33 @@ export function RegisterForm({
   const session = useSession();
   console.log(session);
 
+  const registerPage = useTranslations("RegisterPage");
+  const locale = useLocale();
 
-  const registerPage = useTranslations('RegisterPage');
-      const locale = useLocale();
-  
-
-      console.log(formData)
+  console.log(formData);
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="bg-zinc-200/55 shadow-md
-      dark:bg-zinc-600 dark:shadow-md">
+      <Card
+        className="bg-zinc-200/55 shadow-md
+      dark:bg-zinc-600 dark:shadow-md"
+      >
         <CardHeader>
-          <CardTitle className="text-2xl dark:text-white">{registerPage('Register')}</CardTitle>
+          <CardTitle className="text-2xl dark:text-white">
+            {registerPage("Register")}
+          </CardTitle>
           <CardDescription className="text-gray-600 dark:text-stone-100">
-          {registerPage('EnterDetailsRegister')}
+            {registerPage("EnterDetailsRegister")}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-1">
-                <Label htmlFor="email" className={`${formStyles} dark:text-white`}>
-                {registerPage('User name')}
+                <Label
+                  htmlFor="email"
+                  className={`${formStyles} dark:text-white`}
+                >
+                  {registerPage("User name")}
                 </Label>
                 <Input
                   id="name"
@@ -343,8 +338,11 @@ export function RegisterForm({
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="email" className={`${formStyles} dark:text-white`}>
-                {registerPage('Email')}
+                <Label
+                  htmlFor="email"
+                  className={`${formStyles} dark:text-white`}
+                >
+                  {registerPage("Email")}
                 </Label>
                 <Input
                   id="email"
@@ -358,8 +356,11 @@ export function RegisterForm({
                 />
               </div>
               <div className="grid gap-2 w-[100%]">
-                <Label htmlFor="password" className={`${formStyles} dark:text-white`}>
-                {registerPage('Password')}
+                <Label
+                  htmlFor="password"
+                  className={`${formStyles} dark:text-white`}
+                >
+                  {registerPage("Password")}
                 </Label>
 
                 <div className="relative w-[100%]">
@@ -379,7 +380,7 @@ export function RegisterForm({
 
                   {type === "password" && formData.password ? (
                     <span
-                    className={`${locale === "en" ? "icon-class" : "icon-class"}`}
+                      className={`${locale === "en" ? "icon-class" : "icon-class"}`}
                       onClick={() => setType("text")}
                     >
                       <EyeIcon className="w-5 h-5" />
@@ -388,7 +389,7 @@ export function RegisterForm({
                     type === "text" &&
                     formData.password && (
                       <span
-                      className={`${locale === "en" ? "icon-class" : "icon-class"}`}
+                        className={`${locale === "en" ? "icon-class" : "icon-class"}`}
                         onClick={() => setType("password")}
                       >
                         <EyeOffIcon className="w-5 h-5" />
@@ -399,16 +400,16 @@ export function RegisterForm({
 
                 {false && (
                   <div
-                  className={`${
-                    validation || formData.password.trim() === ""
-                      ? "hidden"
-                      : "flex"
-                  } text-sm text-red-500`}
-                >
-                  {registerPage('AtLeastOneLowercase1')}<br /> {registerPage('AtLeastOneLowercase2')}
-                </div>
+                    className={`${
+                      validation || formData.password.trim() === ""
+                        ? "hidden"
+                        : "flex"
+                    } text-sm text-red-500`}
+                  >
+                    {registerPage("AtLeastOneLowercase1")}
+                    <br /> {registerPage("AtLeastOneLowercase2")}
+                  </div>
                 )}
-
               </div>
 
               {formData.password.trim() !== "" && (
@@ -418,8 +419,11 @@ export function RegisterForm({
               )}
 
               <div className="grid gap-2">
-                <Label htmlFor="email" className={`${formStyles} dark:text-white`}>
-                {registerPage('Confirm password')}
+                <Label
+                  htmlFor="email"
+                  className={`${formStyles} dark:text-white`}
+                >
+                  {registerPage("Confirm password")}
                 </Label>
                 <Input
                   id="confirm-password"
@@ -434,13 +438,22 @@ export function RegisterForm({
               </div>
 
               <div className="flex flex-col gap-3">
-                <Button type="submit" className="w-full bg-green-500 hover:bg-green-500/95 active:bg-green-500/90 text-white">
-                  {loading ? <Loader2 className="animate-spin" /> : registerPage('RegisterButton')}
+                <Button
+                  type="submit"
+                  className="w-full bg-green-500 hover:bg-green-500/95 active:bg-green-500/90 text-white"
+                >
+                  {loading ? (
+                    <Loader2 className="animate-spin" />
+                  ) : (
+                    registerPage("RegisterButton")
+                  )}
                 </Button>
 
-                <span className={`text-center text-sm text-gray-700 -my-1 tracking-wider
-                  ${locale === 'ar' && 'tracking-widest'}`}>
-                  {registerPage('Or')}
+                <span
+                  className={`text-center text-sm text-gray-700 dark:text-gray-100 -my-1 tracking-wider
+                  ${locale === "ar" && "tracking-widest"}`}
+                >
+                  {registerPage("Or")}
                 </span>
 
                 <Button
@@ -459,16 +472,19 @@ export function RegisterForm({
                         height={24}
                         alt="Google logo"
                       />
-                      {registerPage('Continue With Google')}
+                      {registerPage("Continue With Google")}
                     </>
                   )}
                 </Button>
               </div>
             </div>
             <div className="mt-4 text-center text-sm dark:text-white">
-            {registerPage('Already have an account?')}{" "}
-              <Link href={`/${locale}/login`} className="hover:underline dark:text-white active:text-gray-800 underline-offset-4">
-              {registerPage('Sign In')}
+              {registerPage("Already have an account?")}{" "}
+              <Link
+                href={`/${locale}/login`}
+                className="hover:underline dark:text-white active:text-gray-800 underline-offset-4"
+              >
+                {registerPage("Sign In")}
               </Link>
             </div>
           </form>

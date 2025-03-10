@@ -14,6 +14,9 @@ import "./globals.css";
 import { getUser } from "@/actions/getUser";
 import EmailIsNotVerified from "@/components/EmailIsNotVerified";
 
+import { Analytics } from '@vercel/analytics/next';
+
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -54,6 +57,8 @@ export default async function RootLayout({
             <NextIntlClientProvider messages={messages}>
             <EmailIsNotVerified session={jUser} />
               {children}
+              <Analytics />
+
             </NextIntlClientProvider>
             <Toaster />
           </Providers>

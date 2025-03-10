@@ -8,6 +8,8 @@ import { redirect } from "next/navigation";
 import { getUser } from "@/actions/getUser";
 import { getLocale } from "next-intl/server";
 
+
+
 const page = async () => {
 
   // mongoose.connect(process.env.MONGO_URL as string);

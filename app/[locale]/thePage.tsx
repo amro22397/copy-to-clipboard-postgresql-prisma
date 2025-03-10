@@ -42,9 +42,11 @@ const ThePage = ({ user }: //   textAreaData,
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6 max-w-7xl mx-auto h-[calc(100vh-100px)]">
+    <div className="flex flex-col items-center justify-center gap-6 xl:max-w-7xl mx-auto md:h-[calc(100vh-100px)]
+    h-full my-[22px] md:my-0 sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[92.5vw]">
       <h1 className="text-4xl font-semibold my-4">Copy to Clipboard</h1>
-      <div className="w-full flex flex-row justify-end gap-3 items-center">
+      <div className="w-full flex flex-row justify-end gap-3 items-center
+      px-[10px] sm:px-0">
         <span className="">
           {user?.user?.email}
         </span>
@@ -57,7 +59,10 @@ const ThePage = ({ user }: //   textAreaData,
           Log Out
         </Button>
       </div>
-      <div className="flex flex-row items-start justify-center gap-10 w-full">
+
+
+      <div className="flex lg:flex-row flex-col px-4 md:px-0
+       items-start justify-center gap-10 w-full">
         <AddText textsDataArray={textsData} getTexts={getTexts} getTextsArea={getTextsArea} email={user?.user?.email} />
 
         <AddText textsDataArray={textsAreaData} textAreaData={textsAreaData} getTexts={getTexts} getTextsArea={getTextsArea}

@@ -9,7 +9,7 @@
       "ُEnterYourEmailAddress": "Enter your email below to login to your account",
       "Email": "Email",
       "Forgot your password?": "Forgot your password?",
-      "Don't have an account?": "Don&apos;t have an account?",
+      "Don't have an account?": "Don't have an account?",
       "Register": "Register",
       "Continue With Google": "Continue With Google",
       "Password": "Password",
@@ -47,6 +47,10 @@
       "Send": "Send",
       "Back to sign in": "Back to sign in",
       "Email": "Email",
+      "IfYouDidntRecieve": "If you didn't recieve reset password email, check your spam folder or",
+      "click here": "click here",
+      "Example5": "Example",
+      "Example6": "Example",
       "Example7": "Example"
     },
 

@@ -25,7 +25,7 @@ const page = async () => {
       
   
   const user = await getUser();
-  const jUser = JSON.parse(JSON.stringify(user))
+  const jUser = JSON.parse(JSON.stringify(user) || '{}')
   const locale = await getLocale();
 
 

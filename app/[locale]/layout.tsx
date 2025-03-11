@@ -55,7 +55,7 @@ export default async function RootLayout({
         <AppProvider session>
           <Providers>
             <NextIntlClientProvider messages={messages}>
-            <EmailIsNotVerified session={jUser} />
+            
               {children}
               <Analytics />
 

@@ -7,6 +7,7 @@ import { connectToDatabase } from '@/lib/db'
 import { redirect } from "next/navigation";
 import { getUser } from "@/actions/getUser";
 import { getLocale } from "next-intl/server";
+import EmailIsNotVerified from "@/components/EmailIsNotVerified";
 
 
 
@@ -39,7 +40,10 @@ const page = async () => {
   }
 
   return (
+    <>
+    <EmailIsNotVerified session={jUser} />
     <ThePage user={jUser} /*textAreaData={jTextAreaData} textsDataArray={jTextsData}*/ />
+    </>
   );
 };
 

@@ -1,8 +1,9 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { connectToDatabase } from "@/lib/db";
-import text from "@/models/text";
+// import { connectToDatabase } from "@/lib/db";
+// import text from "@/models/text";
 import { NextApiRequest, NextApiResponse } from "next";
+import prisma from '@/lib/prisma';
 // model import 
 
 
@@ -10,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
 
     
-    await connectToDatabase();
+    // await connectToDatabase();
     const session = await getServerSession(req, res, authOptions);
     console.log(session?.user?.email);
 
@@ -25,10 +26,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === "GET") {
         // find from db
-        const textsData = await text.find({
-          emailRef: session?.user?.email
-        });
-        const jTextsData = JSON.parse(JSON.stringify(textsData));
+        // const textsData = await text.find({
+        //   emailRef: session?.user?.email
+        // });
+
+
+        // const jTextsData = JSON.parse(JSON.stringify(textsData));
+
+        const jTextsData = await prisma.text.findMany({
+          where: { emailRef: session?.user?.email }
+        })
       
         return res.status(200).json({
             success: true,

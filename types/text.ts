@@ -1,4 +1,4 @@
 export type Text = {
-    _id: string;
+    id: string;
     text: string;
 }

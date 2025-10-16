@@ -162,7 +162,7 @@ const AddText = ({
         {textsDataArray.map((item, index) => (
           <div
             className="flex flex-row justify-between items-center w-full gap-4"
-            key={item._id}
+            key={item.id}
           >
             {editedOn === item.text ? (
               <div className="flex flex-row items-center gap-2 w-full">
@@ -184,7 +184,7 @@ const AddText = ({
                 )}
 
                 <Button
-                  onClick={() => handleEditText(item._id)}
+                  onClick={() => handleEditText(item.id)}
                   className="cursor-pointer"
                 >
                   {editTextLoading ? (
@@ -245,7 +245,7 @@ const AddText = ({
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
-                      onClick={() => handleDeleteItem(item._id)}
+                      onClick={() => handleDeleteItem(item.id)}
                     >
                       Continue
                     </AlertDialogAction>

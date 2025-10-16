@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+.env
 .env.local
 
 # debug
@@ -42,3 +43,5 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+/lib/generated/prisma

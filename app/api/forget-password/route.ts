@@ -1,13 +1,19 @@
-import { User } from "@/models/user";
-import mongoose from "mongoose";
-import sgMail from '@sendgrid/mail'
-import crypto from 'crypto'
+// import { User } from "@/models/user";
+// import mongoose from "mongoose";
+// import sgMail from '@sendgrid/mail'
+// import crypto from 'crypto'
+
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
-    mongoose.connect(process.env.MONGO_URL as string);
-    const { email, locale } = await req.json();
+    // mongoose.connect(process.env.MONGO_URL as string);
+    const { email } = await req.json();
 
-    const user = await User.findOne({ email: email });
+    // const user = await User.findOne({ email: email });
+
+    const user = await prisma.user.findUnique({
+        where: { email: email }
+    })
 
     try {
         if (!user) {
@@ -70,7 +76,7 @@ export async function POST(req: Request) {
 
     } catch (error) {
         return Response.json({
-            message: "Something went wrong",
+            message: `Something went wrong: ${error}`,
                 success: false,
         })
     }

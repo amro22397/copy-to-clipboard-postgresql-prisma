@@ -16,6 +16,9 @@ import EmailIsNotVerified from "@/components/EmailIsNotVerified";
 
 import { Analytics } from '@vercel/analytics/next';
 
+import styles from "./layout.module.css"; 
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,7 +53,8 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative
+        ${locale === 'ar' ? styles.arabic : styles.english}`}
       >
         <AppProvider session>
           <Providers>

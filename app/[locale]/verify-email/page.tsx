@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from "next/router"
+// import { useRouter } from "next/router"
 // import VerifyPage from "./VerifyPage"
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -103,7 +103,7 @@ const [loading, setLoading] = useState(false);
         // if change height change for loading and page
 
   return (
-    <div className="flex justify-center items-center h-screen
+    <div className="flex justify-center items-center h-[90vh]
     ">
       <div className="w-full max-w-md">
         {verified && (

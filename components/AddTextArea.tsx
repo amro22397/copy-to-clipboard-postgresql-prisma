@@ -144,7 +144,7 @@ const AddTextArea = ({ textAreaData }: { textAreaData: Text[] }) => {
                     />
 
                     <Button
-                      onClick={() => handleEditText(item._id)}
+                      onClick={() => handleEditText(item.id)}
                       className="cursor-pointer"
                     >
                       {editTextAreaLoading ? (
@@ -193,7 +193,7 @@ const AddTextArea = ({ textAreaData }: { textAreaData: Text[] }) => {
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <AlertDialogAction
-                        onClick={() => handleDeleteItem(item._id)}
+                        onClick={() => handleDeleteItem(item.id)}
                         >Continue</AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>

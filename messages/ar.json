@@ -50,6 +50,8 @@
       "Send": "أرسل",
       "Back to sign in": "العودة لتسجيل الدخول",
       "Email": "البريد الإلكتروني",
+      "IfYouDidntRecieve": "إذا لم تصلك رسالة إعادة تعيين كلمة السر ، راجع بريد المهملات (Spam) أو",
+      "click here": "أضغط هنا",
       "Example6": "Example",
       "Example7": "Example"
     },
@@ -84,7 +86,7 @@
       "عربي" : "إذا لم تستلم بريداً إلكترونياً، راجع بريد المهملات (spam) أو",
       "YourAccountIsNot": "حسابك لم يتم تأكيده بعد راجع بريدك الإلكتروني لتجد رابط التأكيد وقم بتحديث الصفحة .",
       "IfYouHaveNotRecieved": "إذا لم يصلك البريد الإلكتروني راجع بريد المهملات (spam) أو ",
-      "click here": "أضغط هنا",
+      "click here": " أضغط هنا",
       "Example5": "Example",
       "Example6": "Example",
       "Example7": "Example"

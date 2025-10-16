@@ -195,6 +195,11 @@ body {
   @apply absolute left-4 top-2 text-gray-500 cursor-pointer dark:text-gray-100;
 }
 
+.right-dir * {
+  direction: rtl;
+  text-align: right;
+}
+
 .add-button {
   @apply bg-black text-white mt-[1px] cursor-pointer;
 }

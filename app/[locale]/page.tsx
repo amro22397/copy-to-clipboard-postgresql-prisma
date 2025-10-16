@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import { getUser } from "@/actions/getUser";
 import { getLocale } from "next-intl/server";
 import EmailIsNotVerified from "@/components/EmailIsNotVerified";
+import prisma from "@/lib/prisma";
 
 
 
@@ -39,9 +40,14 @@ const page = async () => {
     redirect(`/${locale}/register`);
   }
 
+
+  const sessionUser = await prisma.user.findUnique({
+    where: { email: jUser.user.email }
+  })
+
   return (
     <>
-    <EmailIsNotVerified session={jUser} />
+    <EmailIsNotVerified session={sessionUser} />
     <ThePage user={jUser} /*textAreaData={jTextAreaData} textsDataArray={jTextsData}*/ />
     </>
   );

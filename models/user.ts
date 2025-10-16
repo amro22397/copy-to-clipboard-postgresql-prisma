@@ -21,6 +21,7 @@ const UserSchema = new Schema({
     hashedPassword: {
         type: String,
     },
+    
     resetPasswordToken: {
         type: String,
         required: false,

@@ -1,69 +1,68 @@
-// import mongoose from "mongoose";
-import prisma from "@/lib/prisma";
-import crypto from "crypto"
 // import { User } from "@/models/user";
-
-export async function PUT(req: Request) {
-    // mongoose.connect(process.env.MONGO_URL as string);
-    const { verificationToken, userId } = await req.json();
-
-    try {
-        const verifyToken = crypto.createHash("sha256").update(verificationToken).digest("hex");
-        console.log(verifyToken)
+import prisma from "@/lib/prisma";
+import bcrypt from "bcrypt"
+// import mongoose from "mongoose";
+import crypto from 'crypto'
 
 
-        // const user = await User.findOne({
-        //     _id: userId,
-        //     verifyToken: verifyToken,
-        //     verifyTokenExpires: { $gt: new Date()},
-        // });
+export async function POST(req: Request) {
+   //  mongoose.connect(process.env.MONGO_URL as string);
+   const { token, password } = await req.json();
 
-        const user = await prisma.user.findUnique({
-            where: {
-                id: userId,
-                verifyToken: verifyToken,
-                verifyTokenExpires: { gt: new Date() },
-            }
-        })
+   const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
-        if (!user) {
-            return Response.json({
-                message: "Invalid token or has expired",
-                success: false,
-            })
-        }
+   try {
+      //   const user = await User.findOne({ 
+      //       resetPasswordToken: hashedToken,
+      //       resetPasswordExpires: { $gt: Date.now() },
+      //    });
 
-        // await User.updateOne({ email: user.email }, {
-        //     $set: {
-        //         isVerified: true,
-        //         verifyToken: null,
-        //         verifyTokenExpires: null,
-        //     }
-        // });
+      const user = await prisma.user.findFirst({
+         where: {
+            resetPasswordToken: hashedToken,
+            resetPasswordExpires: { gt: new Date() },
+         }
+      })
 
-
-        await prisma.user.update({
-            where: { email: user.email },
-            data: {
-                isVerified: true,
-                verifyToken: null,
-                verifyTokenExpires: null,
-            }
-        })
-
-        return Response.json({
-            message: 'Email is verified',
-            success: true,
-        });
-
-    } catch (error) {
-        
-        console.log(error);
-
-        return Response.json({
-            message: `Server error verifying email:${error}`,
+      if (!user) {
+         return Response.json({
+            message: "Invalid token or has expired",
             success: false,
-        })
-    }
+         })
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 12);
+
+      // await User.updateOne({ email: user.email }, { $set: {
+      //    resetPasswordToken: null,
+      //    resetPasswordExpires: null,
+      //    hashedPassword: hashedPassword,
+      // }})
+
+      await prisma.user.update({
+         where: { email: user.email },
+         data: {
+            resetPasswordToken: null,
+            resetPasswordExpires: null,
+            hashedPassword: hashedPassword,
+         }
+      })
+
+      return Response.json({
+         message: "Password was reset successfully",
+         success: true,
+      })
+
+   } catch (error) {
+
+      console.log(`There is an error resetting password: ${error}`);
+      return Response.json({
+         message: `There is an error resetting password: ${error}`,
+         success: false,
+      })
+
+   }
+
+
 
 }

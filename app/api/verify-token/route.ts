@@ -7,7 +7,9 @@ import crypto from "crypto"
 export async function POST(req: Request) {
     // mongoose.connect(process.env.MONGO_URL as string);
 
-    const { token } = await req.json();
+    try {
+        
+        const { token } = await req.json();
 
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
@@ -16,10 +18,10 @@ export async function POST(req: Request) {
     //     resetPasswordExpires: { $gt: Date.now() },
     // })
 
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
         where: {
             resetPasswordToken: hashedToken,
-            resetPasswordExpires: { gt: Date.now() },
+            resetPasswordExpires: { gt: new Date() },
         }
     })
 
@@ -35,4 +37,15 @@ export async function POST(req: Request) {
         status: true,
         user: user
     })
+
+    } catch (error) {
+        
+        console.log(`Server Error verifying token: ${error}`);
+
+        return Response.json({
+        message: `Server Error verifying token: ${error}`,
+        status: false,
+    })
+    
+    }
 }

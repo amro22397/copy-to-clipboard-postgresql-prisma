@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
     // const isUserExist = await User.findOne({ name: name });
 
-    const isUserExist = await prisma.user.findUnique({
+    const isUserExist = await prisma.user.findFirst({
         where: { name: name },
     })
 

@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { Session } from "@/types/session";
 import { signOut } from "next-auth/react";
 import { useLocale } from "next-intl";
+import Link from "next/link";
 
 const ThePage = ({ user }: //   textAreaData,
 //   textsDataArray,
@@ -44,6 +45,15 @@ const ThePage = ({ user }: //   textAreaData,
   return (
     <div className="flex flex-col items-center justify-center gap-6 xl:max-w-7xl mx-auto md:h-[calc(100vh-100px)]
     h-full my-[22px] md:my-0 sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[92.5vw]">
+      
+      { locale === "ar" && (
+        <Link href={`/en`}
+      className="text-left w-full"
+      >
+    Go to normal page
+    </Link>
+      )}
+
       <h1 className="text-4xl font-semibold my-4">Copy to Clipboard</h1>
       <div className="w-full flex flex-row justify-end gap-3 items-center
       px-[10px] sm:px-0">

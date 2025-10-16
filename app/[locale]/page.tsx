@@ -1,21 +1,22 @@
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import ThePage from "./thePage";
-import textArea from "@/models/text-area";
-import text from "@/models/text";
+// import textArea from "@/models/text-area";
+// import text from "@/models/text";
 
-import { connectToDatabase } from '@/lib/db'
+// import { connectToDatabase } from '@/lib/db'
 import { redirect } from "next/navigation";
 import { getUser } from "@/actions/getUser";
 import { getLocale } from "next-intl/server";
 import EmailIsNotVerified from "@/components/EmailIsNotVerified";
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 
 
 
 const page = async () => {
 
   // mongoose.connect(process.env.MONGO_URL as string);
-  connectToDatabase();
+  // connectToDatabase();
   
   // const textsData = await text.find({});
   // const jTextsData = JSON.parse(JSON.stringify(textsData));
@@ -48,6 +49,7 @@ const page = async () => {
   return (
     <>
     <EmailIsNotVerified session={sessionUser} />
+    
     <ThePage user={jUser} /*textAreaData={jTextAreaData} textsDataArray={jTextsData}*/ />
     </>
   );

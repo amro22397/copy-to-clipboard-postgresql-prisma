@@ -9,7 +9,7 @@ import { getUser } from "@/actions/getUser";
 import { getLocale } from "next-intl/server";
 import EmailIsNotVerified from "@/components/EmailIsNotVerified";
 import prisma from "@/lib/prisma";
-import Link from "next/link";
+// import Link from "next/link";
 
 
 
@@ -48,9 +48,10 @@ const page = async () => {
 
   return (
     <>
+    {/* {JSON.stringify(sessionUser, null, 2)} */}
     <EmailIsNotVerified session={sessionUser} />
     
-    <ThePage user={jUser} /*textAreaData={jTextAreaData} textsDataArray={jTextsData}*/ />
+    <ThePage user={sessionUser} /*textAreaData={jTextAreaData} textsDataArray={jTextsData}*/ />
     </>
   );
 };

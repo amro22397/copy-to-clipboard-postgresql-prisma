@@ -2,7 +2,7 @@
 
 // import Text from "@/models/text"
 import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 // import { connectToDatabase } from "@/lib/db";
 // import { connectToMongoDB } from "@/lib/mongoDB";
 
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     // await connectToMongoDB();
     try {
 
-        const { text, emailRef } = await req.json();
+        const { text, emailRef, userId, listId } = await req.json();
 
         // const textData = await Text.create({
         //     text: text,
@@ -29,6 +29,8 @@ export async function POST(req: Request) {
             data: {
                 text: text,
                 emailRef: emailRef,
+                userId: userId,
+                listId: listId
             }
         })
 
@@ -40,9 +42,11 @@ export async function POST(req: Request) {
 
     } catch (error: any) {
 
+        console.log(`Server error adding text: ${error}`)
+
         return NextResponse.json({
             success: false,
-            message: `ApiError: ${error.message}`,
+            message: `Server error adding text: ${error}`,
         })
 
     }
@@ -50,7 +54,9 @@ export async function POST(req: Request) {
 
 
 
-export async function PUT(req: any, { params }: { params: { id: string }}) {
+export async function PUT(req: NextRequest
+    //{ params }: { params: { id: string }}
+    ) {
 
     // mongoose.connect(process.env.MONGO_URL as string);
 
@@ -58,8 +64,8 @@ export async function PUT(req: any, { params }: { params: { id: string }}) {
 
     // await connectToMongoDB();
 
-    const idA = params.id;
-    console.log(`Id is: ${idA}`)
+    // const idA = params.id;
+    // console.log(`Id is: ${idA}`)
 
 
     try {
@@ -85,9 +91,11 @@ export async function PUT(req: any, { params }: { params: { id: string }}) {
 
     } catch (error: any) {
 
+        console.log('Server error updating text: ' + error)
+
         return NextResponse.json({
             success: false,
-            message: 'ApiError: ' + error.message,
+            message: 'Server error updating text: ' + error,
         })
 
     }
@@ -120,9 +128,11 @@ export async function DELETE(req: any) {
 
     } catch (error: any) {
 
+        console.log('Server error deleting text: ' + error)
+
         return NextResponse.json({
             success: false,
-            message: 'ApiError: ' + error.message,
+            message: 'Server error deleting text: ' + error,
         })
 
     }

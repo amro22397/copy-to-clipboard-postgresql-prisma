@@ -14,40 +14,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-
-  id String @id @default(cuid())
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name String?
-  email String @unique
-  image String?
+  name           String?
+  email          String  @unique
+  image          String?
   hashedPassword String?
-  
-  resetPasswordToken String? 
+
+  resetPasswordToken   String?
   resetPasswordExpires DateTime?
-  isVerified Boolean? @default(false)
-  verifyToken String?
-  verifyTokenExpires DateTime?
+  isVerified           Boolean?  @default(false)
+  verifyToken          String?
+  verifyTokenExpires   DateTime?
 }
 
 model Text {
-  id String @id @default(cuid())
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  text String
+  text     String
   emailRef String
+  userId String?
+  listId String?
 }
 
-
 model TextArea {
-  id String @id @default(cuid())
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  text String
+  text     String
   emailRef String
+  userId String?
+  listId String?
+}
+
+model List {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name     String
+  emailRef String
+  userId String
 }

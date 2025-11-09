@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
     try {
 
-        const { text, emailRef } = await req.json();
+        const { text, emailRef, userId, listId } = await req.json();
 
         // const textAreaData = await textArea.create({
         //     text: text,
@@ -28,20 +28,24 @@ export async function POST(req: Request) {
             data: {
                 text: text,
                 emailRef: emailRef,
+                userId: userId,
+                listId: listId
             }
         })
 
         return NextResponse.json({
             success: true,
             data: textAreaData,
-            message: 'Text is added successfully',
+            message: 'Textarea is added successfully',
         })
 
     } catch (error: any) {
 
+        console.log(`Server error adding textarea: ${error}`)
+
         return NextResponse.json({
             success: false,
-            message: `ApiError: ${error.message}`,
+            message: `Server error adding textarea: ${error}`,
         })
 
     }
@@ -104,14 +108,16 @@ export async function PUT(req: any) {
         return NextResponse.json({
             success: true,
             data: textDataUpdated,
-            message: 'Text is updated successfully',
+            message: 'Textarea is updated successfully',
         })
 
     } catch (error: any) {
 
+        console.log('Server error updating textarea: ' + error,)
+
         return NextResponse.json({
             success: false,
-            message: 'ApiError: ' + error.message,
+            message: 'Server error updating textarea: ' + error,
         })
 
     }
@@ -138,14 +144,17 @@ export async function DELETE(req: any) {
 
         return NextResponse.json({
             success: true,
-            message: 'Text is deleted successfully',
+            message: 'Textarea is deleted successfully',
+            data: textDataDeleted
         })
 
     } catch (error: any) {
 
+        console.log('Server error deleting textarea: ' + error)
+
         return NextResponse.json({
             success: false,
-            message: 'ApiError: ' + error.message,
+            message: 'Server error deleting textarea: ' + error,
         })
 
     }

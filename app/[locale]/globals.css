@@ -203,3 +203,19 @@ body {
 .add-button {
   @apply bg-black text-white mt-[1px] cursor-pointer;
 }
+
+.badge-list {
+  @apply text-[20.25px] px-[14.2px] py-0 tracking-wide
+           text-white dark:bg-blue-600/90
+          flex flex-row items-center gap-[13px]
+           cursor-pointer active:scale-95;
+          /* cursor-default */
+}
+
+.unselected-badge-list {
+  @apply bg-blue-700/90;
+}
+
+.selected-badge-list {
+  @apply bg-indigo-900/95;
+}

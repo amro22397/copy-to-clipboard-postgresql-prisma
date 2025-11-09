@@ -14,7 +14,6 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -28,13 +27,17 @@ const AddText = ({
   textAreaData,
   getTexts,
   getTextsArea,
-  email
+  email,
+  userId,
+  pageListId
 }: {
   textsDataArray: Text[];
   textAreaData?: Text[];
   getTexts: () => void,
   getTextsArea: () => void,
   email: string | null | undefined;
+  userId: string | null | undefined;
+  pageListId: string | null | undefined
 }) => {
   const [text, setText] = useState("");
 
@@ -55,6 +58,8 @@ const AddText = ({
       {
         text: text,
         emailRef: email,
+        userId: userId,
+        listId: pageListId,
       }
     );
 
@@ -129,6 +134,7 @@ const AddText = ({
   // ss
   return (
     <div className="flex flex-col items-center justify-center gap-6 w-full">
+      {/* {pageListId} */}
       <div className="flex flex-row items-start justify-center gap-2 w-full">
         {textsDataArray && !textAreaData && (
           <Input
@@ -159,7 +165,7 @@ const AddText = ({
       </div>
 
       <div className="flex flex-col justify-center px-5 gap-[7px] items-center w-full">
-        {textsDataArray.map((item, index) => (
+        {textsDataArray.map((item) => (
           <div
             className="flex flex-row justify-between items-center w-full gap-4"
             key={item.id}
@@ -195,8 +201,8 @@ const AddText = ({
                 </Button>
               </div>
             ) : (
-              <div className="bg-gray-700/70 text-white hover:bg-gray-500/65 active:scale-95
-               w-full px-3 py-[1px] rounded-xs "
+              <div className={`bg-gray-700/70 text-white hover:bg-gray-500/65 active:scale-95
+               md:w-full sm:min-w-[400px] min-w-[300px] px-3 py-[1px] rounded-xs ${textAreaData && "whitespace-pre-line"}`}
                onClick={() => handleCopyText(item.text)}
                >
                 <span

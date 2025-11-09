@@ -23,10 +23,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
     }
 
-    const { pageListId } = req.query;
-
-    console.log(pageListId)
-
 
     if (req.method === "GET") {
         // find from db
@@ -37,41 +33,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // const jTextsData = JSON.parse(JSON.stringify(textsData));
 
-        if (pageListId === 'All') {
-
-          const jTextsDataAll = await prisma.text.findMany({
-          where: { AND: [
-            { emailRef: session?.user?.email },
-            { listId: 'All' }
-          ] },
-          orderBy: { createdAt: 'asc' }
-        })
-
-        const jTextsDataNull = await prisma.text.findMany({
-          where: { AND: [
-            { emailRef: session?.user?.email },
-            { listId: null }
-          ] },
-          orderBy: { createdAt: 'asc' }
-        });
-
-        return res.status(200).json({
-            success: true,
-            data: [...jTextsDataNull, ...jTextsDataAll],
-        })
-        }
-
-        const jTextsData = await prisma.text.findMany({
-          where: { AND: [
-            { emailRef: session?.user?.email },
-            { listId: pageListId }
-          ] },
+        const jLists = await prisma.list.findMany({
+          where: { emailRef: session?.user?.email },
           orderBy: { createdAt: 'asc' }
         })
       
         return res.status(200).json({
             success: true,
-            data: jTextsData,
+            data: jLists,
         })
     }
 
@@ -80,10 +49,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
   } catch (error: any) {
-    console.error('Error in handler', error);
+    console.error(`Server error in getting lists', ${error}`);
+
     res.status(500).json({
         success: false,
-        message: "Internal Server Error", 
+        message: `Server error in getting lists', ${error}`, 
         error: error.message
     })
   }

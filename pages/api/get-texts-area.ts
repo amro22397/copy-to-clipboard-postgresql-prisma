@@ -17,6 +17,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.log(session?.user?.email);
 
 
+        const { pageListId } = req.query;
+
         if (!session) {
             return res.status(401).json({
                 message: "Unauthorized",
@@ -31,8 +33,40 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             //     emailRef: session?.user?.email
             // });
 
+            if (pageListId === 'All') {
+
+          const jTextAreaDataAll = await prisma.text.findMany({
+          where: { AND: [
+            { emailRef: session?.user?.email },
+            { listId: 'All' }
+          ] },
+          orderBy: { createdAt: 'asc' }
+        })
+
+        const jTextAreaDataNull = await prisma.text.findMany({
+          where: { AND: [
+            { emailRef: session?.user?.email },
+            { listId: null }
+          ] },
+          orderBy: { createdAt: 'asc' }
+        });
+
+        return res.status(200).json({
+            success: true,
+            data: [...jTextAreaDataAll, ...jTextAreaDataNull],
+        })
+        }
+
+
+
             const jTextAreaData = await prisma.textArea.findMany({
-                where: { emailRef: session?.user?.email }
+                where: { 
+                    AND: [
+                        { emailRef: session?.user?.email },
+                        { listId: pageListId }
+                    ]
+                 },
+                orderBy: { createdAt: 'asc' }
             })
 
             // const jTextAreaData = JSON.parse(JSON.stringify(textAreaData));

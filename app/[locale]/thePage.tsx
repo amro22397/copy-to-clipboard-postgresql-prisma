@@ -45,13 +45,13 @@ const ThePage = ({ user }: //   textAreaData,
   
 
   const getTexts = async () => {
-    const res = await axios.get(`/api/get-texts?pageListId=${pageListIdQuery}`);
+    const res = await axios.get(`/api/get-texts?pageListId=${pageListId}`);
 
     setTextsData(res.data.data);
   };
 
   const getTextsArea = async () => {
-    const res = await axios.get(`/api/get-texts-area?pageListId=${pageListIdQuery}`);
+    const res = await axios.get(`/api/get-texts-area?pageListId=${pageListId}`);
 
     setTextsAreaData(res.data.data);
   };
@@ -71,7 +71,7 @@ const ThePage = ({ user }: //   textAreaData,
     getTextsArea();
 
     getLists();
-  }, [pageListIdQuery]);
+  }, [pageListId]);
 
   return (
     <div className="flex flex-col items-center justify-center gap-6  mx-auto
@@ -113,8 +113,8 @@ const ThePage = ({ user }: //   textAreaData,
           onClick={() => {
             localStorage.setItem('pageListId', 'All')
             setPageListId('All');
-            params.set('pageListId', 'All')
-            router.push(`?${params.toString()}`)
+            // params.set('pageListId', 'All')
+            // router.push(`?${params.toString()}`)
             // getTexts();
             // getTextsArea();
           }}
@@ -134,8 +134,8 @@ const ThePage = ({ user }: //   textAreaData,
           onClick={() => {
             localStorage.setItem('pageListId', list.id)
             setPageListId(list.id)
-            params.set('pageListId', list.id)
-            router.push(`?${params.toString()}`)
+            // params.set('pageListId', list.id)
+            // router.push(`?${params.toString()}`)
             // getTexts();
             // getTextsArea();
           }}

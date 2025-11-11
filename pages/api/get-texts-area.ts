@@ -35,7 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             if (pageListId === 'All') {
 
-          const jTextAreaDataAll = await prisma.text.findMany({
+          const jTextAreaDataAll = await prisma.textArea.findMany({
           where: { AND: [
             { emailRef: session?.user?.email },
             { listId: 'All' }
@@ -43,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           orderBy: { createdAt: 'asc' }
         })
 
-        const jTextAreaDataNull = await prisma.text.findMany({
+        const jTextAreaDataNull = await prisma.textArea.findMany({
           where: { AND: [
             { emailRef: session?.user?.email },
             { listId: null }
@@ -53,7 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         return res.status(200).json({
             success: true,
-            data: [...jTextAreaDataAll, ...jTextAreaDataNull],
+            data: [...jTextAreaDataNull, ...jTextAreaDataAll],
         })
         }
 

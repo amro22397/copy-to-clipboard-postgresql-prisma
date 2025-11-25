@@ -184,7 +184,7 @@ const ThePage = ({
 
       {/* {pageListIdQuery} */}
 
-      <div className="flex xl:flex-row flex-col px-4 md:px-0
+      <div className="flex 2xl:flex-row flex-col px-4 md:px-0
        items-start justify-center gap-10 w-full">
         <AddText textsDataArray={textsData} getTexts={getTexts} getTextsArea={getTextsArea} email={sessionUser?.user?.email}
         pageListId={pageListId} userId={sessionUser?.user?.id}

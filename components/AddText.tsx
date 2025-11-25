@@ -135,7 +135,8 @@ const AddText = ({
   return (
     <div className="flex flex-col items-center justify-center gap-6 w-full">
       {/* {pageListId} */}
-      <div className="flex flex-row items-start justify-center gap-2 w-full">
+      <div className="flex flex-row items-start justify-center gap-2 
+      2xl:w-full xl:w-[50vw] lg:w-[60vw] md:w-[75vw] sm:w-[85vw] w-[90vw]">
         {textsDataArray && !textAreaData && (
           <Input
             type="text"
@@ -167,7 +168,7 @@ const AddText = ({
       <div className="flex flex-col justify-center px-5 gap-[7px] items-center w-full">
         {textsDataArray.map((item) => (
           <div
-            className="flex flex-row justify-between items-center w-full gap-4"
+            className="flex flex-row justify-between items-center 2xl:w-full xl:w-[50vw] lg:w-[60vw] md:w-[75vw] sm:w-[85vw] w-[90vw] gap-4"
             key={item.id}
           >
             {editedOn === item.text ? (
@@ -202,7 +203,7 @@ const AddText = ({
               </div>
             ) : (
               <div className={`bg-gray-700/70 text-white hover:bg-gray-500/65 active:scale-95
-               md:w-full sm:min-w-[400px] min-w-[300px] px-3 py-[1px] rounded-xs ${textAreaData && "whitespace-pre-line"}`}
+               xl:w-full md:min-w-[500px] sm:min-w-[400px] min-w-[300px] px-3 py-[1px] rounded-xs ${textAreaData && "whitespace-pre-line"}`}
                onClick={() => handleCopyText(item.text)}
                >
                 <span

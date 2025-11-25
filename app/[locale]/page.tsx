@@ -5,7 +5,7 @@ import ThePage from "./thePage";
 
 // import { connectToDatabase } from '@/lib/db'
 import { redirect } from "next/navigation";
-import { getUser } from "@/actions/getUser";
+import { getSession } from "@/actions/getUser";
 import { getLocale } from "next-intl/server";
 import EmailIsNotVerified from "@/components/EmailIsNotVerified";
 import prisma from "@/lib/prisma";
@@ -29,29 +29,29 @@ const page = async () => {
   // console.log(textAreaData)
       
   
-  const user = await getUser();
-  const jUser = JSON.parse(JSON.stringify(user) || '{}')
+  const session = await getSession();
+  // const jUser = JSON.parse(JSON.stringify(user) || '{}')
   const locale = await getLocale();
 
 
- console.log(jUser)
+//  console.log(jUser)
 
  
-  if (!jUser?.user?.email) {
+  if (!session?.user?.email) {
     redirect(`/${locale}/register`);
   }
 
 
-  const sessionUser = await prisma.user.findUnique({
-    where: { email: jUser.user.email }
-  })
+  // const sessionUser = await prisma.user.findUnique({
+  //   where: { email: session.user.email }
+  // })
 
   return (
     <>
     {/* {JSON.stringify(sessionUser, null, 2)} */}
-    <EmailIsNotVerified session={sessionUser} />
+    {/* <EmailIsNotVerified session={sessionUser} /> */}
     
-    <ThePage user={sessionUser} /*textAreaData={jTextAreaData} textsDataArray={jTextsData}*/ />
+    <ThePage /* user={sessionUser} */ session={session}  /*textAreaData={jTextAreaData} textsDataArray={jTextsData}*/ />
     </>
   );
 };

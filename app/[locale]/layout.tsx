@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 
 import AppProvider from "@/components/AppContext";
@@ -12,11 +12,12 @@ import { Providers } from "./provider";
 
 import "./globals.css";
 import { getUser } from "@/actions/getUser";
-import EmailIsNotVerified from "@/components/EmailIsNotVerified";
+// import EmailIsNotVerified from "@/components/EmailIsNotVerified";
 
 import { Analytics } from '@vercel/analytics/next';
 
 import styles from "./layout.module.css"; 
+import EmailIsNotVerified from "@/components/EmailIsNotVerified";
 
 
 
@@ -54,12 +55,12 @@ export default async function RootLayout({
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative
-        ${locale === 'ar' ? styles.arabic : styles.english}`}
+        ${locale === 'ar' ? styles.arabic : styles.english} overflow-x-hidden`}
       >
         <AppProvider session>
           <Providers>
             <NextIntlClientProvider messages={messages}>
-            
+            <EmailIsNotVerified />
               {children}
               <Analytics />
 

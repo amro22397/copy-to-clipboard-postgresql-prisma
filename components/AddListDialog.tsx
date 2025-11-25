@@ -21,8 +21,8 @@ import { toast } from "sonner"
 const AddListDialog = ({
   email, userId, getLists
 }: {
-  email: string;
-  userId: string;
+  email: string | null | undefined;
+  userId: string | null | undefined;
   getLists: () => void
 }) => {
 

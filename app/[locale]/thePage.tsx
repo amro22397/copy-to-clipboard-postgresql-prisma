@@ -8,7 +8,6 @@ import AddText from "@/components/AddText";
 // import AddTextArea from "@/components/AddTextArea";
 import axios from "axios";
 // import { toast } from "sonner";
-import { Session } from "@/types/session";
 import { signOut } from "next-auth/react";
 import { useLocale } from "next-intl";
 import Link from "next/link";
@@ -16,13 +15,18 @@ import AddListDialog from "@/components/AddListDialog";
 
 import { Badge } from "@/components/ui/badge"
 import ListEditDelete from "@/components/ListEditDelete";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { Session } from "@/types/user";
 
 
-const ThePage = ({ user }: //   textAreaData,
+const ThePage = ({ 
+  // user
+  session
+ }: //   textAreaData,
 //   textsDataArray,
 {
-  user: Session,
+  // user: Session,
+  session: Session
   //   textAreaData: Text[];
   //   textsDataArray: Text[];
 }) => {
@@ -33,14 +37,17 @@ const ThePage = ({ user }: //   textAreaData,
 
   const [lists, setLists] = useState([]);
 
+    const [sessionUser, setSessionUser] = useState<Session | null | undefined>(null);
+
+
   const locale = useLocale();
 
   const searchParams = useSearchParams();
-  const router = useRouter();
+  // const router = useRouter();
 
   const pageListIdQuery = searchParams?.get('pageListId');
 
-  const params = new URLSearchParams(searchParams);
+  // const params = new URLSearchParams(searchParams);
 
   
 
@@ -73,6 +80,26 @@ const ThePage = ({ user }: //   textAreaData,
     getLists();
   }, [pageListId]);
 
+
+  const getSessionUser = async () => {
+    
+    const res = await axios.get(`/api/get-session-user?email=${session?.user?.email}&locale=${locale}`, {
+      params: {
+        session: JSON.stringify(session),
+      }
+    });
+
+    // setRes(res)
+
+    setSessionUser(res.data.data);
+
+  }
+
+
+  useEffect(() => {
+      getSessionUser();
+    }, []);
+
   return (
     <div className="flex flex-col items-center justify-center gap-6  mx-auto
     xl:max-w-7xl lg:max-w-[92.5vw] md:max-w-[80vw] sm:max-w-[90vw] md:mb-10 md:mt-16 my-[22px]"
@@ -87,12 +114,13 @@ const ThePage = ({ user }: //   textAreaData,
     </Link>
       )}
 
-      <h1 className="text-4xl font-semibold my-4">Copy to Clipboard</h1>
+      <h1 className="sm:text-4xl text-3xl font-semibold my-4">Copy to Clipboard</h1>
 
-      <div className="w-full flex flex-row justify-center gap-3 items-center
+      {sessionUser?.user?.email && (
+        <div className="w-full flex flex-row justify-center gap-3 items-center
       px-[10px] sm:px-0">
         <span className="">
-          {user?.email}
+          {sessionUser?.user?.email}
         </span>
 
         <Button 
@@ -103,10 +131,11 @@ const ThePage = ({ user }: //   textAreaData,
           Log Out
         </Button>
       </div>
+      )}
 
 
       <div className="flex flex-row items-center justify-start gap-3 w-full
-      overflow-x-hidden hover:overflow-x-auto">
+      overflow-x-hidden hover:overflow-x-auto max-sm:overflow-x-auto sm:px-0 px-4">
 
         <Badge variant="secondary"
           className={`badge-list ${pageListId === 'All' ? "selected-badge-list" : "unselected-badge-list"}`}
@@ -150,19 +179,19 @@ const ThePage = ({ user }: //   textAreaData,
           </Badge>
         ))}
 
-        <AddListDialog email={user?.email} userId={user?.id} getLists={getLists} />
+        <AddListDialog email={sessionUser?.user?.email} userId={sessionUser?.user?.id} getLists={getLists} />
       </div>
 
       {/* {pageListIdQuery} */}
 
       <div className="flex xl:flex-row flex-col px-4 md:px-0
        items-start justify-center gap-10 w-full">
-        <AddText textsDataArray={textsData} getTexts={getTexts} getTextsArea={getTextsArea} email={user?.email}
-        pageListId={pageListId} userId={user?.id}
+        <AddText textsDataArray={textsData} getTexts={getTexts} getTextsArea={getTextsArea} email={sessionUser?.user?.email}
+        pageListId={pageListId} userId={sessionUser?.user?.id}
         />
 
         <AddText textsDataArray={textsAreaData} textAreaData={textsAreaData} getTexts={getTexts} getTextsArea={getTextsArea}
-        email={user?.email}  userId={user?.id}
+        email={sessionUser?.user?.email}  userId={sessionUser?.user?.id}
         pageListId={pageListId}
         />
         {/* <AddTextArea textAreaData={textAreaData} /> */}

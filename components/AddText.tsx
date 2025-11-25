@@ -205,6 +205,7 @@ const AddText = ({
               <div className={`bg-gray-700/70 text-white hover:bg-gray-500/65 active:scale-95
                xl:w-full md:min-w-[500px] sm:min-w-[400px] min-w-[300px] px-3 py-[1px] rounded-xs ${textAreaData && "whitespace-pre-line"}`}
                onClick={() => handleCopyText(item.text)}
+               // max-[450px]:min-w-[200px]
                >
                 <span
                   className="text-[20.4px] tracking-wide

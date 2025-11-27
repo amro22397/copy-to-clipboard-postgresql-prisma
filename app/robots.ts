@@ -1,11 +1,11 @@
 
 import { MetadataRoute } from "next";
-import { getLocale } from "next-intl/server";
+// import { getLocale } from "next-intl/server";
 
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
 
-    const locale = await getLocale();
+    // const locale = await getLocale();
 
     return {
         rules: [
@@ -16,7 +16,7 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
             }
         ],
 
-        sitemap: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}/sitemap.xml`
+        sitemap: `${process.env.NEXT_PUBLIC_BASE_URL}/sitemap.xml`
     }
 }
 

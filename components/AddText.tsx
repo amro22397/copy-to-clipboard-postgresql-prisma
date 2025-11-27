@@ -133,7 +133,7 @@ const AddText = ({
 
   // ss
   return (
-    <div className="flex flex-col items-center justify-center gap-6 w-full">
+    <div className="flex flex-col items-center justify-center gap-6 sm:w-full w-[100%]">
       {/* {pageListId} */}
       <div className="flex flex-row items-start justify-center gap-2 
       2xl:w-full xl:w-[50vw] lg:w-[60vw] md:w-[75vw] sm:w-[85vw] w-[90vw]">

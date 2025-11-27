@@ -5,14 +5,22 @@ import VerifyEmailTemplate from "@/app/emails/VerifyEmailTemplate";
 // import { User } from "@/models/user";
 // import { connectToDatabase } from "@/lib/db";
 // import mongoose from "mongoose";
-import prisma from "@/lib/prisma";
-import crypto from "crypto"
-import { UserService } from "@/lib/user.service";
+// import prisma from "@/lib/prisma";
+// import crypto from "crypto"
+import { UserService } from "@/lib/user.service"; 
+import VerifyEmailTemplateArabic from "@/app/emails/VerifyEmailTemplateArabic";
+//
 
 
 
 
 export default async function handler(req: any, res: any) {
+
+  const { email, subject, locale } = req.body;
+
+  console.log(`ASD123: `, email, subject, locale)
+
+
   if (req.method !== "POST") {
 
     // await connectToDatabase();
@@ -20,7 +28,9 @@ export default async function handler(req: any, res: any) {
     // return res.status(405).json({ error: "Method Not Allowed" });
     res.status(200).json({
       success: false,
-      message: "Method Not Allowed"
+      // message: "Method Not Allowed"
+      message: locale === "en" ? "This method is not allowed" : "هذه الطريقة غير مسموحة"
+
     })
     // return Response.json({
     //     success: false,
@@ -28,14 +38,22 @@ export default async function handler(req: any, res: any) {
     // })
   }
 
-  const { email, subject, locale } = req.body;
-
   
 
+
+
+  try {
+
+
   if (!email || !subject) {
+
+    console.log(locale === "en" ? "Missing required fields" : "بعض المدخلات غير موجودة");
+
     return res.status(400).json({ 
       success: false,
-      error: "Missing required fields" 
+      // error: "Missing required fields" 
+      message: locale === "en" ? "Missing required fields" : "بعض المدخلات غير موجودة"
+
     });
     // return Response.json({
     //     success: false,
@@ -47,9 +65,9 @@ export default async function handler(req: any, res: any) {
   // mongoose.connect(process.env.MONGO_URL as string);
   // const user = await User.findOne({ email: email })
 
-  const user = await prisma.user.findUnique({
-    where: { email: email }
-  })
+  // const user = await prisma.user.findUnique({
+  //   where: { email: email }
+  // })
 
 
   // const getVerificationToken = ():string => {
@@ -67,12 +85,12 @@ export default async function handler(req: any, res: any) {
   //   await user.save();
     // console.log(verificationToken);
 
-    const verificationToken = await UserService.getVerificationToken(user.id);
+    const verificationToken = await UserService.getVerificationToken(email);
 
 
-    const verificationLink = `${process.env.NEXTAUTH_URL}/${locale}/verify-email?verifyToken=${verificationToken}&id=${user.id}`
+    const verificationLink = `${process.env.NEXTAUTH_URL}/${locale}/verify-email?verifyToken=${verificationToken}&email=${email}`
 
-    console.log(verificationLink)
+    console.log('Verification link: ', verificationLink)
 
 
 
@@ -80,9 +98,13 @@ export default async function handler(req: any, res: any) {
   console.log(process.env.SMTP_HOST, process.env.SMTP_PORT, process.env.SMTP_USERNAME,
      process.env.SMTP_PASSWORD, process.env.GENERATED_ZOHO_PASSWORD)
 
-  console.log('console log: ', email, subject, locale, user)
+  console.log('console log: ', email, subject, locale)
 
-  const emailHtml = await render(VerifyEmailTemplate(verificationLink));
+  // const emailHtml = await render(VerifyEmailTemplate(verificationLink));
+
+  const emailHtml = locale === "en" 
+    ? await render(VerifyEmailTemplate(verificationLink)) 
+    : await render(VerifyEmailTemplateArabic(verificationLink));
 
   // Mailtrap SMTP configuration
   const transporter = nodemailer.createTransport({
@@ -96,8 +118,6 @@ export default async function handler(req: any, res: any) {
   });
 
 
-
-  try {
     await transporter.sendMail({
       from: 'admin@wds-oman.com',
       to: email,
@@ -105,17 +125,28 @@ export default async function handler(req: any, res: any) {
       html: emailHtml,
     });
 
-    res.status(200).json({ success: true, message: "Email sent successfully!" });
+    console.log('Email sent successfully!')
+
+    return res.status(200).json({ 
+      success: true, 
+      // message: "Email sent successfully!" 
+      message: locale === "en" ? "Email sent successfully!" : "تم إرسال البريد الإلكتروني بنجاح!"
+
+    });
     // return Response.json({
     //     success: true,
     //     message: "Email sent successfully!"
     // })
 
-  } catch (error) {
-    console.error("Error sending email:", error);
+  } catch (error: any) {
+    // console.error("Error sending email:", error);
+    console.error(locale === "en" ? `Server error sending email: ${error}` : `خلل من السيرفر في إرسال البريد الإلكتروني: ${error}`);
+
     res.status(500).json({ 
       success: false,
-      message: "Api Error: " + error
+      // message: "Api Error: " + error
+      message: locale === "en" ? "Server Error: " + error.message : "خلل من السيرفر: " + error.message
+
      });
     // return Response.json({
     //     success: false,

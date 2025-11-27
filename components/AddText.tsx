@@ -135,6 +135,7 @@ const AddText = ({
   return (
     <div className="flex flex-col items-center justify-center gap-6 sm:w-full w-[100%]">
       {/* {pageListId} */}
+      {/* {editedText} */}
       <div className="flex flex-row items-start justify-center gap-2 
       2xl:w-full xl:w-[50vw] lg:w-[60vw] md:w-[75vw] sm:w-[85vw] w-[90vw]">
         {textsDataArray && !textAreaData && (
@@ -227,9 +228,15 @@ const AddText = ({
                 size={25}
                 className="cursor-pointer"
                 onClick={() => {
-                  editedOn === item.text
-                    ? setEditedOn("")
-                    : setEditedOn(item.text);
+                  if (editedOn === item.text) {
+                    setEditedOn("")
+                  } else {
+                    setEditedOn(item.text);
+                    setEditedText(item.text);
+                  }
+                  // editedOn === item.text
+                  //   ? setEditedOn("")
+                  //   : setEditedOn(item.text);
                 }}
               />
 

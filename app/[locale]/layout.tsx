@@ -32,8 +32,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Copy to Clipboard",
+  title: {
+    default: 'Copy to Clipboard',
+    template: '%s - Copy to Clipboard'
+  },
   description: "This app to allow adding texts and copy them to clipboard",
+  twitter: {
+    card: 'summary_large_image'
+  }
 };
 
 export default async function RootLayout({

@@ -34,7 +34,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: {
     default: 'Copy to Clipboard - amro97',
-    template: '%s - Copy to Clipboard'
+    template: '%s - Copy to Clipboard - amro97'
   },
   description: "This app to allow adding texts and copy them to clipboard",
   twitter: {

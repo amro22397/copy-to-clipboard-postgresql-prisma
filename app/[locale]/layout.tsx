@@ -45,6 +45,8 @@ export async function generateMetadata({
 
   const { locale } = await params;
 
+  // 
+
   return {
     metadataBase: new URL(`https://www.copy-to-clipboard.fyi`),
     // title: params.locale === "ar" ? "نبذة عنا" : "About Us - Work Remotely",

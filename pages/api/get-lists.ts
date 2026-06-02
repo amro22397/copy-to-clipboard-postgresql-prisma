@@ -35,7 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const jLists = await prisma.list.findMany({
           where: { emailRef: session?.user?.email },
-          orderBy: { createdAt: 'asc' }
+          orderBy: { createdAt: 'desc' }
         })
       
         return res.status(200).json({

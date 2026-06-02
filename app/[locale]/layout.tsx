@@ -18,6 +18,7 @@ import { Analytics } from '@vercel/analytics/next';
 
 import styles from "./layout.module.css"; 
 import EmailIsNotVerified from "@/components/EmailIsNotVerified";
+import { description, title } from "@/constants/title";
 
 
 
@@ -31,16 +32,56 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: 'Copy to Clipboard - amro97',
-    template: '%s - Copy to Clipboard - amro97'
-  },
-  description: "This app to allow adding texts and copy them to clipboard",
-  twitter: {
-    card: 'summary_large_image'
-  }
-};
+
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  // const t = await getDictionary(params.locale); // returns translation object
+
+  // const locale = params.locale;
+
+  const { locale } = await params;
+
+  return {
+    metadataBase: new URL(`https://www.copy-to-clipboard.fyi`),
+    // title: params.locale === "ar" ? "نبذة عنا" : "About Us - Work Remotely",
+    
+    title: {
+      default: locale === "ar" ? title.ar : title.en,
+      template: locale === "ar" ? `%s - ${title.ar}` : `%s - ${title.en}`,
+    },
+
+    description: locale === "ar" ? description.ar : description.en,
+
+    twitter: {
+      card: "summary_large_image",
+    },
+
+    icons: {
+      icon: "/favicon.ico",
+      shortcut: "/favicon.ico",
+      apple: "/apple-touch-icon.png",
+    },
+
+  };
+}
+
+
+
+
+// export const metadata: Metadata = {
+//   title: {
+//     default: 'Copy to Clipboard - amro97',
+//     template: '%s - Copy to Clipboard - amro97'
+//   },
+//   description: "This app to allow adding texts and copy them to clipboard",
+//   twitter: {
+//     card: 'summary_large_image'
+//   }
+// };
 
 export default async function RootLayout({
   children,

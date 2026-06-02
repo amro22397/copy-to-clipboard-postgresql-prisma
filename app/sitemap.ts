@@ -1,18 +1,44 @@
 
 
+// import { MetadataRoute } from "next";
+// import { getLocale } from "next-intl/server";
+
+
+// export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+
+//         const locale = await getLocale();
+
+
+//     return [
+//         {
+//             url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`,
+//             lastModified: new Date(),
+//         }
+//     ]
+// }
+
+
+
 import { MetadataRoute } from "next";
-import { getLocale } from "next-intl/server";
 
+// Same locales you defined in routing.ts
+const locales = ["en", "ar"];
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-        const locale = await getLocale();
+  const routes = ["", "login", "register", "forgot-password"]; // your routes
 
+  const sitemapEntries: MetadataRoute.Sitemap = [];
 
-    return [
-        {
-            url: `${process.env.NEXT_PUBLIC_BASE_URL}/${locale}`,
-            lastModified: new Date(),
-        }
-    ]
+  locales.forEach((locale) => {
+    routes.forEach((route) => {
+      sitemapEntries.push({
+        url: `${baseUrl}/${locale}${route ? `/${route}` : ""}`,
+        lastModified: new Date(),
+      });
+    });
+  });
+
+  return sitemapEntries;
 }

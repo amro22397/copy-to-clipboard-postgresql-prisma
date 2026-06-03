@@ -17,7 +17,8 @@ export async function POST(req: Request) {
 
     try {
 
-        const { text, emailRef, userId, listId } = await req.json();
+        const { text, label, emailRef, userId, listId } = await req.json();
+        const cleanLabel = typeof label === "string" && label.trim() ? label.trim() : null;
 
         // const textAreaData = await textArea.create({
         //     text: text,
@@ -33,9 +34,17 @@ export async function POST(req: Request) {
             }
         })
 
+        if (cleanLabel) {
+            await prisma.$executeRaw`
+                UPDATE "TextArea"
+                SET "label" = ${cleanLabel}
+                WHERE "id" = ${textAreaData.id}
+            `;
+        }
+
         return NextResponse.json({
             success: true,
-            data: textAreaData,
+            data: { ...textAreaData, label: cleanLabel },
             message: 'Textarea is added successfully',
         })
 
@@ -92,9 +101,10 @@ export async function PUT(req: any) {
 
     try {
 
-        const { text } = await req.json();
+        const { text, label } = await req.json();
 
         const id = req.nextUrl.searchParams.get('id');
+        const cleanLabel = typeof label === "string" && label.trim() ? label.trim() : null;
 
         // const textDataUpdated = await textArea.findByIdAndUpdate(id, {
         //     text: text,
@@ -105,9 +115,17 @@ export async function PUT(req: any) {
             data: { text: text }
         })
 
+        if (id) {
+            await prisma.$executeRaw`
+                UPDATE "TextArea"
+                SET "label" = ${cleanLabel}
+                WHERE "id" = ${id}
+            `;
+        }
+
         return NextResponse.json({
             success: true,
-            data: textDataUpdated,
+            data: { ...textDataUpdated, label: cleanLabel },
             message: 'Textarea is updated successfully',
         })
 

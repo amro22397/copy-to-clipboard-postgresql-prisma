@@ -37,6 +37,7 @@ model Text {
   updatedAt DateTime @updatedAt
 
   text     String
+  label    String?
   emailRef String
   userId String?
   listId String?
@@ -48,6 +49,7 @@ model TextArea {
   updatedAt DateTime @updatedAt
 
   text     String
+  label    String?
   emailRef String
   userId String?
   listId String?

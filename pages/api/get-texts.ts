@@ -6,6 +6,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from '@/lib/prisma';
 // model import 
 
+type TextRow = {
+  id: string;
+  text: string;
+  label: string | null;
+};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -23,7 +28,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
     }
 
-    const { pageListId } = req.query;
+    const pageListId = Array.isArray(req.query.pageListId)
+      ? req.query.pageListId[0]
+      : req.query.pageListId;
 
     console.log(pageListId)
 
@@ -39,21 +46,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         if (pageListId === 'All') {
 
-          const jTextsDataAll = await prisma.text.findMany({
-          where: { AND: [
-            { emailRef: session?.user?.email },
-            { listId: 'All' }
-          ] },
-          orderBy: { createdAt: 'asc' }
-        })
+          const jTextsDataAll = await prisma.$queryRaw<TextRow[]>`
+            SELECT "id", "text", "label"
+            FROM "Text"
+            WHERE "emailRef" = ${session?.user?.email}
+            AND "listId" = 'All'
+            ORDER BY "createdAt" ASC
+          `;
 
-        const jTextsDataNull = await prisma.text.findMany({
-          where: { AND: [
-            { emailRef: session?.user?.email },
-            { listId: null }
-          ] },
-          orderBy: { createdAt: 'asc' }
-        });
+        const jTextsDataNull = await prisma.$queryRaw<TextRow[]>`
+          SELECT "id", "text", "label"
+          FROM "Text"
+          WHERE "emailRef" = ${session?.user?.email}
+          AND "listId" IS NULL
+          ORDER BY "createdAt" ASC
+        `;
 
         return res.status(200).json({
             success: true,
@@ -61,13 +68,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
         }
 
-        const jTextsData = await prisma.text.findMany({
-          where: { AND: [
-            { emailRef: session?.user?.email },
-            { listId: pageListId }
-          ] },
-          orderBy: { createdAt: 'asc' }
-        })
+        const jTextsData = await prisma.$queryRaw<TextRow[]>`
+          SELECT "id", "text", "label"
+          FROM "Text"
+          WHERE "emailRef" = ${session?.user?.email}
+          AND "listId" = ${pageListId}
+          ORDER BY "createdAt" ASC
+        `;
       
         return res.status(200).json({
             success: true,

@@ -6,136 +6,137 @@ import { NextRequest, NextResponse } from "next/server";
 // import { connectToDatabase } from "@/lib/db";
 // import { connectToMongoDB } from "@/lib/mongoDB";
 
-
 // export async function GET() {
 
 // }
 
 export async function POST(req: Request) {
+  // await connectToDatabase();
 
-    // await connectToDatabase();
+  // await connectToMongoDB();
+  try {
+    const { text, label, emailRef, userId, listId } = await req.json();
+    const cleanLabel =
+      typeof label === "string" && label.trim() ? label.trim() : null;
 
-    // await connectToMongoDB();
-    try {
+    // const textData = await Text.create({
+    //     text: text,
+    //     emailRef: emailRef,
+    // })
 
-        const { text, emailRef, userId, listId } = await req.json();
+    const textData = await prisma.text.create({
+      data: {
+        text: text,
+        emailRef: emailRef,
+        userId: userId,
+        listId: listId,
+      },
+    });
 
-        // const textData = await Text.create({
-        //     text: text,
-        //     emailRef: emailRef,
-        // })
-
-        const textData = await prisma.text.create({
-            data: {
-                text: text,
-                emailRef: emailRef,
-                userId: userId,
-                listId: listId
-            }
-        })
-
-        return NextResponse.json({
-            success: true,
-            data: textData,
-            message: 'Text is added successfully',
-        })
-
-    } catch (error: any) {
-
-        console.log(`Server error adding text: ${error}`)
-
-        return NextResponse.json({
-            success: false,
-            message: `Server error adding text: ${error}`,
-        })
-
+    if (cleanLabel) {
+      await prisma.$executeRaw`
+        UPDATE "Text"
+        SET "label" = ${cleanLabel}
+        WHERE "id" = ${textData.id}
+      `;
     }
+
+    return NextResponse.json({
+      success: true,
+      data: { ...textData, label: cleanLabel },
+      message: "Text is added successfully",
+    });
+  } catch (error: any) {
+    console.log(`Server error adding text: ${error}`);
+
+    return NextResponse.json({
+      success: false,
+      message: `Server error adding text: ${error}`,
+    });
+  }
 }
 
+export async function PUT(
+  req: NextRequest,
+  //{ params }: { params: { id: string }}
+) {
+  // mongoose.connect(process.env.MONGO_URL as string);
 
+  // await connectToDatabase();
 
-export async function PUT(req: NextRequest
-    //{ params }: { params: { id: string }}
-    ) {
+  // await connectToMongoDB();
 
-    // mongoose.connect(process.env.MONGO_URL as string);
+  // const idA = params.id;
+  // console.log(`Id is: ${idA}`)
 
-    // await connectToDatabase();
+  try {
+    const { text, label } = await req.json();
 
-    // await connectToMongoDB();
+    const id = req.nextUrl.searchParams.get("id");
+    const cleanLabel =
+      typeof label === "string" && label.trim() ? label.trim() : null;
 
-    // const idA = params.id;
-    // console.log(`Id is: ${idA}`)
+    // const textDataUpdated = await Text.findByIdAndUpdate(id, {
+    //     text: text,
+    // })
 
+    const textDataUpdated = await prisma.text.update({
+      where: { id: id },
+      data: { text: text },
+    });
 
-    try {
-
-        const { text } = await req.json();
-
-        const id = req.nextUrl.searchParams.get('id');
-
-        // const textDataUpdated = await Text.findByIdAndUpdate(id, {
-        //     text: text,
-        // })
-
-        const textDataUpdated = await prisma.text.update({
-            where: { id: id },
-            data: { text: text, }
-        })
-
-        return NextResponse.json({
-            success: true,
-            data: textDataUpdated,
-            message: 'Text is updated successfully',
-        })
-
-    } catch (error: any) {
-
-        console.log('Server error updating text: ' + error)
-
-        return NextResponse.json({
-            success: false,
-            message: 'Server error updating text: ' + error,
-        })
-
+    if (id) {
+      await prisma.$executeRaw`
+        UPDATE "Text"
+        SET "label" = ${cleanLabel}
+        WHERE "id" = ${id}
+      `;
     }
-}
 
+    return NextResponse.json({
+      success: true,
+      data: { ...textDataUpdated, label: cleanLabel },
+      message: "Text is updated successfully",
+    });
+  } catch (error: any) {
+    console.log("Server error updating text: " + error);
+
+    return NextResponse.json({
+      success: false,
+      message: "Server error updating text: " + error,
+    });
+  }
+}
 
 export async function DELETE(req: any) {
+  // mongoose.connect(process.env.MONGO_URL as string);
 
-    // mongoose.connect(process.env.MONGO_URL as string);
+  // await connectToDatabase();
 
-    // await connectToDatabase();
+  // await connectToMongoDB();
 
-    // await connectToMongoDB();
+  try {
+    const id = req.nextUrl.searchParams.get("id");
 
+    // const textDataDeleted = await Text.findByIdAndDelete(id);
 
-    try {
-        const id = req.nextUrl.searchParams.get('id');
+    const textDataDeleted = await prisma.text.delete({
+      where: { id: id },
+    });
 
-        // const textDataDeleted = await Text.findByIdAndDelete(id);
+    return NextResponse.json({
+      success: true,
+      message: "Text is deleted successfully",
+      data: textDataDeleted,
+    });
+  } catch (error: any) {
+    console.log("Server error deleting text: " + error);
 
-        const textDataDeleted = await prisma.text.delete({
-            where: { id: id }
-        })
+    return NextResponse.json({
+      success: false,
+      message: "Server error deleting text: " + error,
+    });
+  }
 
-        return NextResponse.json({
-            success: true,
-            message: 'Text is deleted successfully',
-            data: textDataDeleted,
-        })
-
-    } catch (error: any) {
-
-        console.log('Server error deleting text: ' + error)
-
-        return NextResponse.json({
-            success: false,
-            message: 'Server error deleting text: ' + error,
-        })
-
-    }
-
-    // ss
+  // ss
 }

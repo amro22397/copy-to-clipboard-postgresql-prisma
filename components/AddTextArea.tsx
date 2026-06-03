@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { LoaderCircle } from "lucide-react";
@@ -9,19 +9,13 @@ import { Input } from "@/components/ui/input";
 import { IoCopyOutline } from "react-icons/io5";
 import { MdDeleteForever } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
-
-
-
-
-
-
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -29,17 +23,30 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Text } from '@/types/text';
 
+const ITEMS_PER_PAGE = 5;
+
 const AddTextArea = ({ textAreaData }: { textAreaData: Text[] }) => {
   const [textArea, setTextArea] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [textAreaLoading, setTextAreaLoading] = useState(false);
 
   const [editTextAreaLoading, setEditTextAreaLoading] = useState(false);
-  const [deleteTextAreaLoading, setDeleteTextAreaLoading] = useState(false);
+  const [, setDeleteTextAreaLoading] = useState(false);
 
     const [editedText, setEditedText] = useState("");
   
     const [editedOn, setEditedOn] = useState("");
   
+  const totalPages = Math.max(1, Math.ceil(textAreaData.length / ITEMS_PER_PAGE));
+  const pageStart = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedTextAreaData = textAreaData.slice(
+    pageStart,
+    pageStart + ITEMS_PER_PAGE
+  );
+
+  useEffect(() => {
+    setCurrentPage((page) => Math.min(page, totalPages));
+  }, [totalPages]);
 
   const handleAddTextArea = async () => {
     setTextAreaLoading(true);
@@ -119,7 +126,9 @@ const AddTextArea = ({ textAreaData }: { textAreaData: Text[] }) => {
         placeholder="Add your text here..."
         className="text-[19.25px] px-2 w-full resize-none"
         value={textArea}
-        onChange={(e: any) => setTextArea(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+          setTextArea(e.target.value)
+        }
       />
 
       <Button
@@ -132,14 +141,19 @@ const AddTextArea = ({ textAreaData }: { textAreaData: Text[] }) => {
     </div>
 
     <div className="flex flex-col justify-center px-5 gap-1 items-center w-full">
-            {textAreaData.map((item, index) => (
-              <div className="flex flex-row justify-between items-center w-full gap-9">
+            {paginatedTextAreaData.map((item) => (
+              <div
+                className="flex flex-row justify-between items-center w-full gap-9"
+                key={item.id}
+              >
                 {editedOn === item.text ? (
                   <div className="flex flex-row items-center gap-2 w-full">
                     <Input
                       type="text"
                       defaultValue={item.text}
-                      onChange={(e: any) => setEditedText(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setEditedText(e.target.value)
+                      }
                       className="text-[20.25px] px-2"
                     />
 
@@ -206,6 +220,51 @@ const AddTextArea = ({ textAreaData }: { textAreaData: Text[] }) => {
               </div>
             ))}
           </div>
+
+          {textAreaData.length > ITEMS_PER_PAGE && (
+            <div className="flex flex-wrap items-center justify-center gap-2 w-full">
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                aria-label="Previous page"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+              >
+                <ChevronLeft />
+              </Button>
+
+              {Array.from({ length: totalPages }, (_, index) => {
+                const pageNumber = index + 1;
+
+                return (
+                  <Button
+                    key={pageNumber}
+                    type="button"
+                    variant={currentPage === pageNumber ? "default" : "outline"}
+                    size="icon"
+                    aria-label={`Go to page ${pageNumber}`}
+                    onClick={() => setCurrentPage(pageNumber)}
+                  >
+                    {pageNumber}
+                  </Button>
+                );
+              })}
+
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                aria-label="Next page"
+                disabled={currentPage === totalPages}
+                onClick={() =>
+                  setCurrentPage((page) => Math.min(totalPages, page + 1))
+                }
+              >
+                <ChevronRight />
+              </Button>
+            </div>
+          )}
     </div>
   );
 };

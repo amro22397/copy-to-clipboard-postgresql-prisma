@@ -7,6 +7,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from '@/lib/prisma';
 // model import 
 
+type TextAreaRow = {
+    id: string;
+    text: string;
+    label: string | null;
+};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -17,7 +22,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.log(session?.user?.email);
 
 
-        const { pageListId } = req.query;
+        const pageListId = Array.isArray(req.query.pageListId)
+            ? req.query.pageListId[0]
+            : req.query.pageListId;
 
         if (!session) {
             return res.status(401).json({
@@ -35,21 +42,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             if (pageListId === 'All') {
 
-          const jTextAreaDataAll = await prisma.textArea.findMany({
-          where: { AND: [
-            { emailRef: session?.user?.email },
-            { listId: 'All' }
-          ] },
-          orderBy: { createdAt: 'asc' }
-        })
+          const jTextAreaDataAll = await prisma.$queryRaw<TextAreaRow[]>`
+            SELECT "id", "text", "label"
+            FROM "TextArea"
+            WHERE "emailRef" = ${session?.user?.email}
+            AND "listId" = 'All'
+            ORDER BY "createdAt" ASC
+          `;
 
-        const jTextAreaDataNull = await prisma.textArea.findMany({
-          where: { AND: [
-            { emailRef: session?.user?.email },
-            { listId: null }
-          ] },
-          orderBy: { createdAt: 'asc' }
-        });
+        const jTextAreaDataNull = await prisma.$queryRaw<TextAreaRow[]>`
+          SELECT "id", "text", "label"
+          FROM "TextArea"
+          WHERE "emailRef" = ${session?.user?.email}
+          AND "listId" IS NULL
+          ORDER BY "createdAt" ASC
+        `;
 
         return res.status(200).json({
             success: true,
@@ -59,15 +66,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
 
-            const jTextAreaData = await prisma.textArea.findMany({
-                where: { 
-                    AND: [
-                        { emailRef: session?.user?.email },
-                        { listId: pageListId }
-                    ]
-                 },
-                orderBy: { createdAt: 'asc' }
-            })
+            const jTextAreaData = await prisma.$queryRaw<TextAreaRow[]>`
+                SELECT "id", "text", "label"
+                FROM "TextArea"
+                WHERE "emailRef" = ${session?.user?.email}
+                AND "listId" = ${pageListId}
+                ORDER BY "createdAt" ASC
+            `;
 
             // const jTextAreaData = JSON.parse(JSON.stringify(textAreaData));
 

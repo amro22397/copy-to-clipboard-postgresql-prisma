@@ -18,6 +18,11 @@ import ListEditDelete from "@/components/ListEditDelete";
 import { useSearchParams } from "next/navigation";
 import { Session } from "@/types/user";
 
+type List = {
+  id: string;
+  name: string;
+};
+
 const ThePage = ({
   // user
   session,
@@ -151,7 +156,7 @@ const ThePage = ({
             /> */}
         </Badge>
 
-        {lists.map((list: any) => (
+        {lists.map((list: List) => (
           // <div key={list.name} className="bg-">{list.name}</div>
           <Badge
             key={list.name}
@@ -204,6 +209,7 @@ const ThePage = ({
         <AddText
           textsDataArray={textsAreaData}
           textAreaData={textsAreaData}
+          itemsPerPage={5}
           getTexts={getTexts}
           getTextsArea={getTextsArea}
           email={sessionUser?.user?.email}

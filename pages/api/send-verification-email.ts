@@ -26,7 +26,7 @@ export default async function handler(req: any, res: any) {
     // await connectToDatabase();
 
     // return res.status(405).json({ error: "Method Not Allowed" });
-    res.status(200).json({
+    return res.status(200).json({
       success: false,
       // message: "Method Not Allowed"
       message: locale === "en" ? "This method is not allowed" : "هذه الطريقة غير مسموحة"

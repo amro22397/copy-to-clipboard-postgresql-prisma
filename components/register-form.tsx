@@ -238,7 +238,7 @@ export function RegisterForm({
       try {
         const verifyRes = await axios.post("/api/send-verification-email", {
           email: formData.email,
-          subject: "Verfiy your Email",
+          subject: "Verify your Email",
           locale: locale,
           // message: VerifyEmailTemplate(),
         });

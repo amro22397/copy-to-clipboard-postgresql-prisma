@@ -57,7 +57,8 @@ const page = async () => {
         
 
   return (
-    <div className="flex min-h-[90vh] w-full items-center justify-center p-6 md:p-10">
+    <div className="flex min-h-[90vh] w-full items-center justify-center md:px-0 px-1.5 md:p-10
+    overflow-x-hidden">
           <div className="w-full max-w-sm">
           <ForgetForm />
           </div>

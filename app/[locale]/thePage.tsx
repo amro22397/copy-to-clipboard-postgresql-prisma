@@ -194,7 +194,7 @@ const ThePage = ({
       {/* {pageListIdQuery} */}
 
       <div
-        className="flex 2xl:flex-row flex-col px-4 md:px-0
+        className="flex xl:flex-row flex-col px-4 md:px-0
        items-start justify-center gap-10 w-full"
       >
         <AddText

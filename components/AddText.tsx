@@ -216,12 +216,14 @@ const AddText = ({
 
   // ss
   return (
-    <div className="flex flex-col items-center justify-center gap-3 sm:w-full w-[100%]">
+    <div className="flex flex-col items-center justify-center gap-3 sm:w-[52.5%] w-[100%]">
       {/* {pageListId} */}
       {/* {editedText} */}
       <div
         className="flex flex-col gap-2
-        2xl:w-full xl:w-[50vw] lg:w-[60vw] md:w-[75vw] sm:w-[85vw] w-[90vw]"
+        w-full
+        "
+        // 2xl:w-full xl:w-[50vw] lg:w-[60vw] md:w-[75vw] sm:w-[85vw] w-[90vw]
       >
         <div className="relative w-full">
           <Input
@@ -253,8 +255,10 @@ const AddText = ({
 
       <div
         className="flex flex-row items-center justify-center gap-2 
-      2xl:w-full xl:w-[50vw] lg:w-[60vw] md:w-[75vw] sm:w-[85vw] w-[90vw]
+       w-full
       bg-gray-400/20 px-2.5 py-4 rounded-xs mb-3"
+      // xl:w-[50vw] lg:w-[60vw] md:w-[75vw] sm:w-[85vw] w-[90vw]
+      // 2xl:w-full ss
       // border border-black
       >
         <div className="flex flex-col gap-2 w-full">
@@ -276,7 +280,8 @@ const AddText = ({
             <Input
               type="text"
               placeholder="Add your text here..."
-              className="text-[20.25px] px-2 py-[21px] bg-gray-200/70"
+              className="text-[20.25px] px-2 py-[21px] bg-gray-300/45"
+              // placeholder:text-white
               value={localStorage.getItem("text") || text || ""}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 localStorage.setItem("text", e.target.value);
@@ -288,7 +293,7 @@ const AddText = ({
           {textAreaData && (
             <Textarea
               placeholder="Add your text here..."
-              className="text-[19.25px] px-2 w-full resize-none bg-gray-200/70"
+              className="text-[19.25px] px-2 w-full resize-none bg-gray-300/45"
               value={localStorage.getItem("textArea") || text || ""}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 localStorage.setItem("textArea", e.target.value);
@@ -310,7 +315,8 @@ const AddText = ({
       <div className="flex flex-col justify-center px-5 gap-[7px] items-center w-full">
         {paginatedTexts.length > 0 ? paginatedTexts.map((item) => (
           <div
-            className="flex flex-row justify-between items-center 2xl:w-full xl:w-[50vw] lg:w-[60vw] md:w-[75vw] sm:w-[85vw] w-[90vw] gap-4"
+            className="flex flex-row justify-between items-center w-full gap-4"
+            // 2xl:w-full xl:w-[50vw] lg:w-[60vw] md:w-[75vw] sm:w-[85vw] w-[90vw] 
             key={item.id}
           >
             {editedOn === item.id ? (

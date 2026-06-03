@@ -13,6 +13,8 @@ export async function generateMetadata({
 
   const { locale } = await params;
 
+  // 
+
   return {
     metadataBase: new URL(`https://www.copy-to-clipboard.fyi`),
 

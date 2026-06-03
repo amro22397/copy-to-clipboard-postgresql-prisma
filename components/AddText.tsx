@@ -216,7 +216,7 @@ const AddText = ({
 
   // ss
   return (
-    <div className="flex flex-col items-center justify-center gap-3 sm:w-[52.5%] w-[100%]">
+    <div className="flex w-full min-w-0 flex-col items-center justify-center gap-3 xl:w-[52.5%]">
       {/* {pageListId} */}
       {/* {editedText} */}
       <div
@@ -233,7 +233,7 @@ const AddText = ({
                 ? "Search text areas and labels..."
                 : "Search texts and labels..."
             }
-            className="text-[16px] pl-2 pr-10 py-[18px] bg-gray-200/70 max-w-[85%] mx-auto"
+            className="mx-auto w-full text-[16px] pl-2 pr-10 py-[18px] bg-gray-200/70 sm:max-w-[85%]"
             value={search}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setSearch(e.target.value)
@@ -242,19 +242,19 @@ const AddText = ({
 
           <FiSearch
             size={20}
-            className="absolute right-15.25 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none sm:right-[9%]"
           />
         </div>
 
-        {search && (
+        {/* {search && (
           <span className="text-sm text-gray-700">
             Searching for: {search}
           </span>
-        )}
+        )} */}
       </div>
 
       <div
-        className="flex flex-row items-center justify-center gap-2 
+        className="flex flex-col min-[480px]:flex-row min-[480px]:items-center items-stretch justify-center gap-2 
        w-full
       bg-gray-400/20 px-2.5 py-4 rounded-xs mb-3"
       // xl:w-[50vw] lg:w-[60vw] md:w-[75vw] sm:w-[85vw] w-[90vw]
@@ -305,23 +305,23 @@ const AddText = ({
 
         <Button
           variant="outline"
-          className="add-button"
+          className="add-button w-full min-[480px]:w-auto"
           onClick={handleAddText}
         >
           {textLoading ? <LoaderCircle className="animate-spin" /> : "Add"}
         </Button>
       </div>
 
-      <div className="flex flex-col justify-center px-5 gap-[7px] items-center w-full">
+      <div className="flex flex-col justify-center sm:px-5 gap-[7px] items-center w-full">
         {paginatedTexts.length > 0 ? paginatedTexts.map((item) => (
           <div
-            className="flex flex-row justify-between items-center w-full gap-4"
+            className="flex w-full min-w-0 flex-row justify-between items-center gap-3"
             // 2xl:w-full xl:w-[50vw] lg:w-[60vw] md:w-[75vw] sm:w-[85vw] w-[90vw] 
             key={item.id}
           >
             {editedOn === item.id ? (
-              <div className="flex flex-row items-end gap-2 w-full">
-                <div className="flex flex-col gap-2 w-full">
+              <div className="flex w-full min-w-0 flex-col min-[480px]:flex-row min-[480px]:items-end gap-2">
+                <div className="flex min-w-0 flex-col gap-2 w-full">
                   <Input
                     type="text"
                     placeholder={
@@ -369,7 +369,7 @@ const AddText = ({
 
                 <Button
                   onClick={() => handleEditText(item.id)}
-                  className="cursor-pointer"
+                  className="w-full cursor-pointer min-[480px]:w-auto"
                 >
                   {editTextLoading ? (
                     <LoaderCircle className="animate-spin" />
@@ -379,9 +379,9 @@ const AddText = ({
                 </Button>
               </div>
             ) : (
-              <div className="flex flex-col gap-1 xl:w-full md:min-w-[500px] sm:min-w-[400px] min-w-[300px]">
+              <div className="flex min-w-0 flex-1 flex-col gap-1">
                 {item.label && (
-                  <span className="text-base text-black/95 font-semibold tracking-wider"
+                  <span className="break-words text-base text-black/95 font-semibold tracking-wider"
                   // font-medium
                   >
                     {item.label}
@@ -390,12 +390,12 @@ const AddText = ({
 
                 <div
                   className={`bg-gray-700/70 text-white hover:bg-gray-700/65 active:scale-95
-                 w-full px-3 py-[1px] rounded-xs ${textAreaData && "whitespace-pre-line"}`}
+                 w-full min-w-0 px-3 py-[1px] rounded-xs ${textAreaData && "whitespace-pre-line"}`}
                   onClick={() => handleCopyText(item.text)}
                   // max-[450px]:min-w-[200px]
                 >
                   <span
-                    className="text-[20.4px] tracking-wide
+                    className="block break-words text-[18px] sm:text-[20.4px] tracking-wide
                 cursor-default active:scale-95"
                   >
                     {item.text}
@@ -404,7 +404,7 @@ const AddText = ({
               </div>
             )}
 
-            <div className="flex flex-row items-center gap-3">
+            <div className="flex shrink-0 flex-row items-center gap-2 sm:gap-3">
               <IoCopyOutline
                 size={23}
                 className="cursor-pointer"

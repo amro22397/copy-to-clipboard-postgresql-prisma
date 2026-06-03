@@ -121,7 +121,7 @@ const AddTextArea = ({ textAreaData }: { textAreaData: Text[] }) => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-6 w-full">
-        <div className="flex flex-row items-start justify-center gap-2 w-full">
+        <div className="flex flex-col min-[480px]:flex-row items-stretch min-[480px]:items-start justify-center gap-2 w-full">
       <Textarea
         placeholder="Add your text here..."
         className="text-[19.25px] px-2 w-full resize-none"
@@ -133,21 +133,21 @@ const AddTextArea = ({ textAreaData }: { textAreaData: Text[] }) => {
 
       <Button
         variant="outline"
-        className="add-button"
+        className="add-button w-full min-[480px]:w-auto"
         onClick={handleAddTextArea}
       >
         {textAreaLoading ? <LoaderCircle className="animate-spin" /> : "Add"}
       </Button>
     </div>
 
-    <div className="flex flex-col justify-center px-5 gap-1 items-center w-full">
+    <div className="flex flex-col justify-center sm:px-5 gap-1 items-center w-full">
             {paginatedTextAreaData.map((item) => (
               <div
-                className="flex flex-row justify-between items-center w-full gap-9"
+                className="flex flex-row justify-between items-center w-full min-w-0 gap-3"
                 key={item.id}
               >
                 {editedOn === item.text ? (
-                  <div className="flex flex-row items-center gap-2 w-full">
+                  <div className="flex flex-col min-[480px]:flex-row items-stretch min-[480px]:items-center gap-2 w-full min-w-0">
                     <Input
                       type="text"
                       defaultValue={item.text}
@@ -159,7 +159,7 @@ const AddTextArea = ({ textAreaData }: { textAreaData: Text[] }) => {
 
                     <Button
                       onClick={() => handleEditText(item.id)}
-                      className="cursor-pointer"
+                      className="w-full cursor-pointer min-[480px]:w-auto"
                     >
                       {editTextAreaLoading ? (
                         <LoaderCircle className="animate-spin" />
@@ -169,10 +169,10 @@ const AddTextArea = ({ textAreaData }: { textAreaData: Text[] }) => {
                     </Button>
                   </div>
                 ) : (
-                  <span className="">{item.text}</span>
+                  <span className="min-w-0 flex-1 break-words">{item.text}</span>
                 )}
 
-                <div className="flex flex-row items-center gap-3">
+                <div className="flex shrink-0 flex-row items-center gap-2 sm:gap-3">
                   <IoCopyOutline size={23}
                   className="cursor-pointer"
                   onClick={() => handleCopyText(item.text)} />

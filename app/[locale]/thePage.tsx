@@ -102,8 +102,8 @@ const ThePage = ({
 
   return (
     <div
-      className="flex flex-col items-center justify-center gap-6  mx-auto
-    xl:max-w-7xl lg:max-w-[92.5vw] md:max-w-[80vw] sm:max-w-[90vw] md:mb-10 md:mt-16 my-[22px]"
+      className="flex w-full flex-col items-center justify-center gap-6 mx-auto px-3
+    xl:max-w-7xl lg:max-w-[92.5vw] md:max-w-[80vw] sm:max-w-[90vw] sm:px-0 md:mb-10 md:mt-16 my-[22px]"
       // h-full md:h-[calc(100vh-100px)]
     >
       {locale === "ar" && (
@@ -112,16 +112,16 @@ const ThePage = ({
         </Link>
       )}
 
-      <h1 className="sm:text-4xl text-3xl font-semibold my-4">
+      <h1 className="text-center sm:text-4xl text-3xl font-semibold my-4">
         Copy to Clipboard
       </h1>
 
       {sessionUser?.user?.email && (
         <div
-          className="w-full flex flex-row justify-center gap-3 items-center
+          className="w-full flex flex-col sm:flex-row justify-center gap-3 items-center
       px-[10px] sm:px-0"
         >
-          <span className="">{sessionUser?.user?.email}</span>
+          <span className="max-w-full break-all text-center">{sessionUser?.user?.email}</span>
 
           <Button
             className="bg-red-500 text-white hover:bg-red-500/95 active:scale-95
@@ -135,11 +135,11 @@ const ThePage = ({
 
       <div
         className="flex flex-row items-center justify-start gap-3 w-full
-      overflow-x-hidden hover:overflow-x-auto max-sm:overflow-x-auto sm:px-0 px-4"
+      overflow-x-auto sm:hover:overflow-x-auto sm:px-0 pb-1"
       >
         <Badge
           variant="secondary"
-          className={`badge-list ${pageListId === "All" ? "selected-badge-list" : "unselected-badge-list"}`}
+          className={`badge-list shrink-0 whitespace-nowrap ${pageListId === "All" ? "selected-badge-list" : "unselected-badge-list"}`}
           onClick={() => {
             localStorage.setItem("pageListId", "All");
             setPageListId("All");
@@ -161,7 +161,7 @@ const ThePage = ({
           <Badge
             key={list.name}
             variant="secondary"
-            className={`badge-list ${pageListId === list.id ? "selected-badge-list" : "unselected-badge-list"}`}
+            className={`badge-list shrink-0 whitespace-nowrap ${pageListId === list.id ? "selected-badge-list" : "unselected-badge-list"}`}
             onClick={() => {
               localStorage.setItem("pageListId", list.id);
               setPageListId(list.id);
@@ -194,7 +194,7 @@ const ThePage = ({
       {/* {pageListIdQuery} */}
 
       <div
-        className="flex xl:flex-row flex-col px-4 md:px-0
+        className="flex xl:flex-row flex-col
        items-start justify-center gap-10 w-full"
       >
         <AddText

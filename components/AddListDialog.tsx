@@ -93,7 +93,7 @@ const AddListDialog = ({
       <form>
         <DialogTrigger asChild>
           <Button variant="outline" className="bg-yellow-600 text-white hover:text-white shadow-lg
-          text-[17.5px] tracking-wider py-[18px] hover:bg-yellow-600/95 active:scale-95 cursor-pointer"
+          shrink-0 text-[16px] sm:text-[17.5px] tracking-wider py-[18px] hover:bg-yellow-600/95 active:scale-95 cursor-pointer"
           // border border-black
           onClick={() => setListDialogOpen(true)}
           >

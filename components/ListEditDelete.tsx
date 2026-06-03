@@ -143,7 +143,7 @@ const ListEditDelete = ({
   };
 
   return (
-    <div className="flex flex-row items-center gap-[3px]"
+    <div className="flex shrink-0 flex-row items-center gap-[3px]"
     onClick={(e: any) => { e.stopPropagation() }}
     >
       <Dialog

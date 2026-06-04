@@ -14,13 +14,11 @@ import "./globals.css";
 import { getUser } from "@/actions/getUser";
 // import EmailIsNotVerified from "@/components/EmailIsNotVerified";
 
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from "@vercel/analytics/next";
 
-import styles from "./layout.module.css"; 
+import styles from "./layout.module.css";
 import EmailIsNotVerified from "@/components/EmailIsNotVerified";
 import { description, title } from "@/constants/title";
-
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,8 +29,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-
 
 export async function generateMetadata({
   params,
@@ -45,12 +41,12 @@ export async function generateMetadata({
 
   const { locale } = await params;
 
-  // 
+  //
 
   return {
     metadataBase: new URL(`https://www.copy-to-clipboard.fyi`),
     // title: params.locale === "ar" ? "نبذة عنا" : "About Us - Work Remotely",
-    
+
     title: {
       default: locale === "ar" ? title.ar : title.en,
       template: locale === "ar" ? `%s - ${title.ar}` : `%s - ${title.en}`,
@@ -67,12 +63,8 @@ export async function generateMetadata({
       shortcut: "/favicon.ico",
       apple: "/apple-touch-icon.png",
     },
-
   };
 }
-
-
-
 
 // export const metadata: Metadata = {
 //   title: {
@@ -98,21 +90,28 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   const user = await getUser();
-  const jUser = JSON.parse(JSON.stringify(user) || '{}')
+  const jUser = JSON.parse(JSON.stringify(user) || "{}");
 
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4591435109060126"
+          crossOrigin="anonymous"
+        ></script>
+      </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative
-        ${locale === 'ar' ? styles.arabic : styles.english} overflow-x-hidden`}
+        ${locale === "ar" ? styles.arabic : styles.english} overflow-x-hidden`}
       >
         <AppProvider session>
           <Providers>
             <NextIntlClientProvider messages={messages}>
-            <EmailIsNotVerified />
+              <EmailIsNotVerified />
               {children}
               <Analytics />
-
             </NextIntlClientProvider>
             <Toaster />
           </Providers>
